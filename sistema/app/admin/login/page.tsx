@@ -40,18 +40,12 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-teal-600 mb-4">
-            <img
-              src="/escalada-icon.svg"
-              alt=""
-              aria-hidden="true"
-              className="h-10 w-auto brightness-0 invert"
-            />
-          </div>
-          <h1 className="text-xl font-bold text-zinc-900 tracking-tight">
-            Escalada Aju
-          </h1>
-          <p className="text-sm text-zinc-500 mt-1">Movimento de Retiros Jovens</p>
+          <img
+            src="/escalada-logo.svg"
+            alt="Escalada Aju"
+            className="h-20 w-auto mx-auto mb-3"
+          />
+          <p className="text-sm text-zinc-500">Movimento de Retiros Jovens</p>
         </div>
 
         <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">

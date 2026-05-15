@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { LayoutDashboard, CalendarDays } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, Users } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { NavLink } from '@/components/admin/nav-link'
 import { SidebarLogout } from '@/components/admin/sidebar-logout'
@@ -18,6 +18,8 @@ export default async function AdminLayout({
   if (!user) {
     redirect('/admin/login')
   }
+
+  const isAdmin = user.app_metadata?.role === 'admin'
 
   return (
     <AdminShell
@@ -52,6 +54,13 @@ export default async function AdminLayout({
               label="Retiros"
               icon={<CalendarDays className="h-4 w-4 shrink-0" />}
             />
+            {isAdmin && (
+              <NavLink
+                href="/admin/usuarios"
+                label="Usuários"
+                icon={<Users className="h-4 w-4 shrink-0" />}
+              />
+            )}
           </nav>
 
           {/* Rodapé com logout */}

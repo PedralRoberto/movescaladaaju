@@ -19,7 +19,7 @@ export function AdminShell({
   }, [pathname])
 
   return (
-    <div className="flex h-screen bg-zinc-50">
+    <div className="flex h-screen bg-zinc-100">
       {/* Backdrop mobile */}
       {open && (
         <div
@@ -30,20 +30,22 @@ export function AdminShell({
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-60 flex flex-col bg-white border-r border-zinc-200 transition-transform duration-200 sm:static sm:shrink-0 ${
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col p-3 transition-transform duration-200 sm:static sm:shrink-0 ${
           open ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
         }`}
       >
-        {/* Botão fechar — mobile only */}
-        <button
-          onClick={() => setOpen(false)}
-          className="absolute top-3.5 right-3 p-1.5 rounded-lg text-zinc-400 hover:bg-zinc-100 transition-colors sm:hidden"
-          aria-label="Fechar menu"
-        >
-          <X className="h-4 w-4" />
-        </button>
+        <div className="relative flex flex-col flex-1 w-56 bg-white rounded-2xl shadow-md border border-zinc-200/60 overflow-hidden">
+          {/* Botão fechar — mobile only */}
+          <button
+            onClick={() => setOpen(false)}
+            className="absolute top-3.5 right-3 p-1.5 rounded-lg text-zinc-400 hover:bg-zinc-100 transition-colors sm:hidden"
+            aria-label="Fechar menu"
+          >
+            <X className="h-4 w-4" />
+          </button>
 
-        {sidebarContent}
+          {sidebarContent}
+        </div>
       </aside>
 
       {/* Coluna direita: topbar mobile + conteúdo */}
@@ -64,7 +66,7 @@ export function AdminShell({
           <span className="text-sm font-bold text-teal-600">Escalada Aju</span>
         </div>
 
-        <main className="flex-1 overflow-auto bg-zinc-50">{children}</main>
+        <main className="flex-1 overflow-auto bg-zinc-100">{children}</main>
       </div>
     </div>
   )

@@ -2,11 +2,10 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { createClient } from '@/lib/supabase/client'
+
+const IN =
+  'w-full text-base border border-zinc-200 rounded-xl px-4 py-3 text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent disabled:opacity-50'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -39,46 +38,36 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-zinc-50 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
-        {/* Logotipo */}
+        {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-teal-500 mb-4">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-teal-600 mb-4">
+            <img
+              src="/escalada-icon.svg"
+              alt=""
               aria-hidden="true"
-            >
-              <path
-                d="M14 4L24 20H4L14 4Z"
-                fill="white"
-                fillOpacity="0.9"
-              />
-              <path
-                d="M14 10L20 20H8L14 10Z"
-                fill="white"
-                fillOpacity="0.4"
-              />
-            </svg>
+              className="h-10 w-auto brightness-0 invert"
+            />
           </div>
-          <h1 className="text-2xl font-bold text-teal-500 tracking-tight">
+          <h1 className="text-xl font-bold text-zinc-900 tracking-tight">
             Escalada Aju
           </h1>
           <p className="text-sm text-zinc-500 mt-1">Movimento de Retiros Jovens</p>
         </div>
 
-        <Card className="border-zinc-200 shadow-sm">
-          <CardHeader className="pb-4">
-            <h2 className="text-lg font-semibold text-zinc-900 text-center">
+        <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
+          <div className="p-6">
+            <h2 className="text-base font-semibold text-zinc-900 mb-5">
               Acesso ao Painel
             </h2>
-          </CardHeader>
-          <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-1.5">
-                <Label htmlFor="email">E-mail</Label>
-                <Input
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-zinc-700 mb-1.5"
+                >
+                  E-mail
+                </label>
+                <input
                   id="email"
                   type="email"
                   placeholder="seu@email.com"
@@ -87,12 +76,19 @@ export default function LoginPage() {
                   required
                   autoComplete="email"
                   autoFocus
+                  disabled={loading}
+                  className={IN}
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <Label htmlFor="password">Senha</Label>
-                <Input
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-zinc-700 mb-1.5"
+                >
+                  Senha
+                </label>
+                <input
                   id="password"
                   type="password"
                   placeholder="••••••••"
@@ -100,25 +96,27 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
+                  disabled={loading}
+                  className={IN}
                 />
               </div>
 
               {error && (
-                <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
                   {error}
                 </p>
               )}
 
-              <Button
+              <button
                 type="submit"
-                className="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium"
                 disabled={loading}
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Entrando...' : 'Entrar'}
-              </Button>
+              </button>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         <p className="text-center text-xs text-zinc-400 mt-6">
           Acesso restrito a administradores autorizados

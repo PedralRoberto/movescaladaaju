@@ -1,0 +1,25 @@
+/* ==========================================================================
+   ESCALADA AJU — Design System Entry Point v2.0 (DEFINITIVO)
+   index.css — Importa todos os arquivos na ordem correta
+   ==========================================================================
+   ÚNICO arquivo que deve ser importado no projeto.
+
+   No Next.js:
+     import '../design-system/index.css'  → em app/globals.css (acima dos tokens shadcn)
+
+   Ou copie o conteúdo de cada arquivo diretamente no globals.css.
+   ========================================================================== */
+
+/* 1. Tailwind directives — OBRIGATÓRIO antes de qualquer custom CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 2. Tokens — variáveis CSS (fundação de tudo, deve vir primeiro) */
+@import './tokens.css';
+
+/* 3. Base — reset, body, tipografia base, links, utilities de layout */
+@import './base.css';
+
+/* 4. Componentes — botões, cards, badges, nav, CTA sections, FAQ */
+@import './componentes.css';

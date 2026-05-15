@@ -1,0 +1,275 @@
+/* ==========================================================================
+   ESCALADA AJU — Design Tokens v2.0 (DEFINITIVO)
+   tokens.css — Variáveis CSS: cores, tipografia, espaçamentos, sombras
+   ==========================================================================
+   Base visual: PulseGrid — mesmo sistema de radius, cards, sombras e layout.
+   Substituições: Inter → Plus Jakarta Sans | zinc-950 accents → Teal/Terracota
+   Importar via index.css. Nunca importar diretamente nos componentes.
+   ========================================================================== */
+
+@layer base {
+  :root {
+
+    /* -----------------------------------------------------------------------
+       ESCALA TEAL — Primary Brand Color
+       Baseado em #15697C (teal oceânico profundo — cor exata da logo)
+       Teal 500 é o valor base (sem shift de escala)
+       ----------------------------------------------------------------------- */
+    --teal-50:  #edf6f8;
+    --teal-100: #d0eaee;
+    --teal-200: #a1d4dd;
+    --teal-300: #65b5c4;
+    --teal-400: #2d94a9;
+    --teal-500: #15697c;   /* BASE — cor original da logo, não alterar */
+    --teal-600: #125f70;
+    --teal-700: #0f5261;
+    --teal-800: #0b3f4b;
+    --teal-900: #082d36;
+    --teal-950: #041a20;
+
+    /* -----------------------------------------------------------------------
+       ESCALA TERRACOTA — Secondary Accent
+       Baseado em #8B4C39 (terracota quente — pomba da logo)
+       Terracota 500 é o valor base
+       ----------------------------------------------------------------------- */
+    --terracota-50:  #fdf3f0;
+    --terracota-100: #fae3dc;
+    --terracota-200: #f5c5b4;
+    --terracota-300: #eda088;
+    --terracota-400: #c9715a;
+    --terracota-500: #8b4c39;   /* BASE — não alterar */
+    --terracota-600: #7a4231;
+    --terracota-700: #663828;
+    --terracota-800: #4e2b1e;
+    --terracota-900: #371e15;
+    --terracota-950: #20100c;
+
+    /* -----------------------------------------------------------------------
+       ESCALA ZINC — Neutros (idêntico ao Tailwind zinc — não alterar)
+       Compatível 100% com PulseGrid original
+       ----------------------------------------------------------------------- */
+    --zinc-50:  #fafafa;
+    --zinc-100: #f4f4f5;
+    --zinc-200: #e4e4e7;
+    --zinc-300: #d4d4d8;
+    --zinc-400: #a1a1aa;
+    --zinc-500: #71717a;
+    --zinc-600: #52525b;
+    --zinc-700: #3f3f46;
+    --zinc-800: #27272a;
+    --zinc-900: #18181b;
+    --zinc-950: #09090b;
+
+    /* -----------------------------------------------------------------------
+       TOKENS SEMÂNTICOS — Formato HSL shadcn/ui (OBRIGATÓRIO)
+
+       Conversões HSL:
+         #15697C → H:192 S:72% L:28%  → 192 72% 28%
+         #125f70 → H:192 S:73% L:25%  → 192 73% 25%
+         #8b4c39 → H:16  S:42% L:38%  → 16 42% 38%
+         #fae3dc → H:15  S:84% L:93%  → 15 84% 93%
+         #4e2b1e → H:16  S:44% L:21%  → 16 44% 21%
+         #09090b → H:240 S:10% L:3.9% → 240 10% 3.9%
+         #e4e4e7 → H:240 S:5.9% L:90% → 240 5.9% 90%
+         #71717a → H:240 S:3.8% L:46% → 240 3.8% 46%
+         #f4f4f5 → H:240 S:4.8% L:96% → 240 4.8% 95.9%
+       ----------------------------------------------------------------------- */
+
+    /* Backgrounds e superfícies */
+    --background:         0 0% 100%;        /* white — fundo padrão da LP */
+    --foreground:         240 10% 3.9%;     /* zinc-950 #09090b */
+
+    --card:               0 0% 100%;        /* white */
+    --card-foreground:    240 10% 3.9%;     /* zinc-950 */
+
+    --popover:            0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    /* Primary — Teal (CTA principal, active states, botão primary) */
+    --primary:            192 72% 28%;      /* #15697C — teal-500 */
+    --primary-foreground: 0 0% 100%;        /* white */
+
+    /* Secondary — Zinc neutro (padrão shadcn — não confundir com terracota) */
+    --secondary:          240 4.8% 95.9%;  /* zinc-100 #f4f4f5 */
+    --secondary-foreground: 240 5.9% 10%;  /* zinc-900 */
+
+    /* Muted — backgrounds suaves, estados desabilitados */
+    --muted:              240 4.8% 95.9%;  /* zinc-100 */
+    --muted-foreground:   240 3.8% 46.1%;  /* zinc-500 #71717a */
+
+    /* Accent — Terracota (destaques especiais, badges, elementos quentes) */
+    --accent:             15 84% 93%;       /* terracota-100 #fae3dc */
+    --accent-foreground:  16 44% 21%;       /* terracota-800 #4e2b1e */
+
+    /* Destructive */
+    --destructive:        0 72% 51%;        /* red-500 */
+    --destructive-foreground: 0 0% 100%;
+
+    /* Bordas, inputs (zinc-200 — não alterar, como no PulseGrid original) */
+    --border:             240 5.9% 90%;     /* zinc-200 #e4e4e7 */
+    --input:              240 5.9% 90%;     /* zinc-200 */
+    --ring:               192 72% 28%;      /* teal-500 — foco = primária */
+
+    /* Radius base para shadcn/ui (components usam este como referência) */
+    --radius: 0.5rem;   /* 8px — valor base shadcn; overrides abaixo controlam a hierarquia */
+
+    /* -----------------------------------------------------------------------
+       SISTEMA DE BORDER-RADIUS — PulseGrid (manter idêntico ao original)
+       Hierarquia visual em 7 níveis — progressão de escala clara
+       ----------------------------------------------------------------------- */
+
+    /* Nível 1 — Container / Wrapper externo de página */
+    --radius-page:      2rem;     /* 32px  — rounded-[2rem] */
+
+    /* Nível 2 — Card / Section principal */
+    --radius-card:      1.5rem;   /* 24px  — rounded-[1.5rem] */
+
+    /* Nível 3 — Sub-card / Ilustração interna de card */
+    --radius-subcard:   1.25rem;  /* 20px  — rounded-[1.25rem] */
+
+    /* Nível 4 — Elemento / Item / Icon box */
+    --radius-element:   1rem;     /* 16px  — rounded-2xl */
+
+    /* Nível 5 — Campo / Botão pequeno / Input */
+    --radius-button:    0.75rem;  /* 12px  — rounded-xl */
+
+    /* Nível 6 — Pill / Badge (bordas completamente arredondadas) */
+    --radius-pill:      9999px;   /* rounded-full */
+
+    /* -----------------------------------------------------------------------
+       TIPOGRAFIA — Plus Jakarta Sans
+       Substitui Inter do PulseGrid mantendo TODA a estrutura de escala e pesos
+       ----------------------------------------------------------------------- */
+    --font-sans:     'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-heading:  'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono:     'JetBrains Mono', 'Fira Code', monospace;
+
+    /* Escala tipográfica — espelhando o PulseGrid (Inter → Plus Jakarta Sans) */
+    --text-xs:   0.75rem;    /* 12px — caption, labels uppercase */
+    --text-sm:   0.875rem;   /* 14px — label, button, nav links */
+    --text-base: 1rem;       /* 16px — body padrão, mínimo absoluto */
+    --text-lg:   1.125rem;   /* 18px — body large */
+    --text-xl:   1.25rem;    /* 20px — H3, card title */
+    --text-2xl:  1.5rem;     /* 24px — H3 desktop */
+    --text-3xl:  1.875rem;   /* 30px — H2 mobile */
+    --text-4xl:  2.25rem;    /* 36px — H2 base (sm:) */
+    --text-5xl:  3rem;       /* 48px — H1 base */
+    --text-6xl:  3.75rem;    /* 60px — H1 sm: */
+    --text-7xl:  4.5rem;     /* 72px — H1 lg: */
+
+    /* Pesos */
+    --font-regular:   400;
+    --font-medium:    500;
+    --font-semibold:  600;
+    --font-bold:      700;
+    --font-extrabold: 800;
+
+    /* Line heights */
+    --leading-tight:    1.1;
+    --leading-snug:     1.25;
+    --leading-normal:   1.5;
+    --leading-relaxed:  1.75;
+    --leading-body:     1.75rem;  /* 28px — Tailwind: leading-7 */
+    --leading-body-lg:  2rem;     /* 32px — Tailwind: leading-8 */
+
+    /* Letter spacing */
+    --tracking-tight:   -0.025em;  /* headings grandes */
+    --tracking-normal:  0;
+    --tracking-caption: 0.2em;     /* caption uppercase — PulseGrid padrão */
+
+    /* -----------------------------------------------------------------------
+       ESPAÇAMENTO — múltiplos de 4px (alinhado Tailwind 4pt grid)
+       ----------------------------------------------------------------------- */
+    --space-0:  0;
+    --space-1:  0.25rem;   /* 4px */
+    --space-2:  0.5rem;    /* 8px */
+    --space-3:  0.75rem;   /* 12px */
+    --space-4:  1rem;      /* 16px */
+    --space-5:  1.25rem;   /* 20px */
+    --space-6:  1.5rem;    /* 24px */
+    --space-8:  2rem;      /* 32px */
+    --space-10: 2.5rem;    /* 40px */
+    --space-12: 3rem;      /* 48px */
+    --space-14: 3.5rem;    /* 56px */
+    --space-16: 4rem;      /* 64px */
+    --space-20: 5rem;      /* 80px */
+    --space-24: 6rem;      /* 96px */
+    --space-32: 8rem;      /* 128px */
+
+    /* Layout */
+    --container-max:    80rem;    /* 1280px — max-w-7xl aprox */
+    --container-narrow: 48rem;    /* 768px */
+    --container-text:   41.25rem; /* 660px — largura ideal leitura */
+    --gutter-desktop:   2rem;     /* 32px — px-8 */
+    --gutter-mobile:    1.5rem;   /* 24px — px-6 */
+    --header-height:    64px;
+
+    /* Section padding — PulseGrid: py-14 lg:py-20 */
+    --section-py:       3.5rem;   /* 56px — py-14 */
+    --section-py-lg:    5rem;     /* 80px — py-20 */
+
+    /* -----------------------------------------------------------------------
+       SOMBRAS — PulseGrid (manter idêntico)
+       ----------------------------------------------------------------------- */
+    --shadow-sm:        0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-card:      0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-hero:      0 20px 80px -20px rgba(0, 0, 0, 0.15);  /* hero preview PulseGrid */
+    --shadow-teal:      0 4px 24px -4px rgba(21, 105, 124, 0.25);
+    --shadow-terracota: 0 4px 24px -4px rgba(139, 76, 57, 0.22);
+
+    /* -----------------------------------------------------------------------
+       TRANSIÇÕES
+       ----------------------------------------------------------------------- */
+    --ease-out:   cubic-bezier(0.0, 0, 0.2, 1);
+    --ease-in:    cubic-bezier(0.4, 0, 1, 1);
+    --ease-inout: cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast:   150ms;
+    --duration-normal: 200ms;
+    --duration-slow:   300ms;
+
+    /* -----------------------------------------------------------------------
+       Z-INDEX
+       ----------------------------------------------------------------------- */
+    --z-base:     0;
+    --z-raised:   10;
+    --z-dropdown: 20;
+    --z-sticky:   40;
+    --z-overlay:  100;
+    --z-modal:    200;
+    --z-toast:    300;
+
+    /* -----------------------------------------------------------------------
+       ALIASES NOMEADOS — referência rápida sem lembrar escala
+       ----------------------------------------------------------------------- */
+
+    /* Teal */
+    --color-brand:           var(--teal-500);  /* #15697C */
+    --color-brand-hover:     var(--teal-600);  /* #125f70 */
+    --color-brand-light:     var(--teal-100);  /* #d0eaee */
+    --color-brand-dark:      var(--teal-700);  /* #0f5261 */
+    --color-brand-darker:    var(--teal-950);  /* #041a20 */
+
+    /* Terracota */
+    --color-accent-warm:       var(--terracota-500);  /* #8b4c39 */
+    --color-accent-warm-hover: var(--terracota-600);  /* #7a4231 */
+    --color-accent-warm-light: var(--terracota-100);  /* #fae3dc */
+    --color-accent-warm-dark:  var(--terracota-700);  /* #663828 */
+
+    /* Texto */
+    --color-text-primary: var(--zinc-950);  /* #09090b */
+    --color-text-body:    var(--zinc-600);  /* #52525b */
+    --color-text-muted:   var(--zinc-500);  /* #71717a */
+    --color-text-subtle:  var(--zinc-400);  /* #a1a1aa */
+
+    /* Superfícies (PulseGrid) */
+    --color-surface:       #ffffff;
+    --color-surface-muted: var(--zinc-50);   /* #fafafa */
+    --color-border-default: var(--zinc-200); /* #e4e4e7 */
+
+    /* Sucesso / Aviso */
+    --success:            #16a34a;
+    --success-foreground: #ffffff;
+    --warning:            #d97706;
+    --warning-foreground: #ffffff;
+  }
+}

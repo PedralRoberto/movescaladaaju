@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design System — Movimento Escalada Aju v2.0</title>
+
+  <!-- Plus Jakarta Sans (substituindo Inter do PulseGrid) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN com config customizada — cores reais do Escalada Aju -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            teal: {
+              50:  '#edf6f8',
+              100: '#d0eaee',
+              200: '#a1d4dd',
+              300: '#65b5c4',
+              400: '#2d94a9',
+              500: '#15697c',
+              600: '#125f70',
+              700: '#0f5261',
+              800: '#0b3f4b',
+              900: '#082d36',
+              950: '#041a20',
+            },
+            terracota: {
+              50:  '#fdf3f0',
+              100: '#fae3dc',
+              200: '#f5c5b4',
+              300: '#eda088',
+              400: '#c9715a',
+              500: '#8b4c39',
+              600: '#7a4231',
+              700: '#663828',
+              800: '#4e2b1e',
+              900: '#371e15',
+              950: '#20100c',
+            },
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Lucide CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #fafafa;
+      color: #09090b;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background-color: #a1d4dd; color: #082d36; }
+
+    .preview-section {
+      background: white;
+      border-radius: 1.5rem;
+      border: 1px solid #e4e4e7;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    }
+    .preview-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #71717a;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #e4e4e7;
+    }
+    .preview-sub {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #a1a1aa;
+      margin-bottom: 0.75rem;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+
+<body class="max-w-6xl mx-auto px-6 py-12 font-sans">
+
+  <!-- CABECALHO DO PREVIEW -->
+  <div class="mb-10">
+    <div class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1.5 shadow-sm text-sm font-medium text-zinc-700 mb-4">
+      <span class="h-1.5 w-1.5 rounded-full bg-teal-500 inline-block"></span>
+      Design System Definitivo v2.0
+    </div>
+    <h1 class="text-5xl font-semibold tracking-tight text-zinc-950 mb-3">
+      Movimento Escalada Aju
+    </h1>
+    <p class="text-lg text-zinc-600 leading-8">
+      PulseGrid + Identidade Escalada — Plus Jakarta Sans · Teal #15697C + Terracota #8B4C39
+    </p>
+  </div>
+
+  <!-- 01 — ANNOUNCEMENT BADGE -->
+  <div class="preview-section">
+    <div class="preview-label">01 — Announcement Badge (PulseGrid: rounded-full border border-zinc-200 bg-white/90 shadow-sm backdrop-blur)</div>
+    <div class="flex flex-wrap gap-3 items-center">
+      <div class="rounded-full border border-zinc-200 bg-white px-3 py-1.5 shadow-sm inline-flex items-center gap-2 text-sm font-medium text-zinc-700">
+        <span class="h-1.5 w-1.5 rounded-full bg-teal-500 inline-block flex-shrink-0"></span>
+        Novo encontro em Aracaju
+      </div>
+      <div class="rounded-full border border-zinc-200 bg-white px-3 py-1.5 shadow-sm inline-flex items-center gap-2 text-sm font-medium text-zinc-700">
+        <span class="h-1.5 w-1.5 rounded-full bg-terracota-400 inline-block flex-shrink-0"></span>
+        Vagas abertas — Turma Outono
+      </div>
+      <div class="rounded-full bg-teal-100 px-3 py-1.5 inline-flex items-center gap-2 text-sm font-medium text-teal-700">
+        <span class="h-1.5 w-1.5 rounded-full bg-teal-500 inline-block"></span>
+        Escalada Aju
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 — BOTOES -->
+  <div class="preview-section">
+    <div class="preview-label">02 — Botões (todos rounded-full — padrão PulseGrid)</div>
+
+    <div class="preview-sub">Primary — bg-teal-500 (substitui zinc-950 do PulseGrid)</div>
+    <div class="flex flex-wrap gap-3 items-center">
+      <button class="rounded-full bg-teal-500 px-5 py-3 text-sm font-medium text-white shadow-sm hover:bg-teal-600 transition-all inline-flex items-center gap-2">
+        Participar agora
+      </button>
+      <button class="rounded-full bg-teal-600 px-5 py-3 text-sm font-medium text-white inline-flex items-center gap-2" style="box-shadow:0 4px 24px -4px rgba(21,105,124,0.35)">
+        Hover state
+      </button>
+      <button class="rounded-full bg-teal-500 px-4 py-2 text-sm font-medium text-white shadow-sm">
+        Pequeno (px-4 py-2)
+      </button>
+      <button disabled class="rounded-full bg-teal-500 px-5 py-3 text-sm font-medium text-white opacity-50 cursor-not-allowed">
+        Desabilitado
+      </button>
+    </div>
+
+    <div class="preview-sub">Secondary — border border-zinc-200 bg-white (PulseGrid padrão)</div>
+    <div class="flex flex-wrap gap-3 items-center">
+      <button class="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-medium text-zinc-900 shadow-sm hover:bg-zinc-50 transition-all">
+        Saiba mais
+      </button>
+      <button class="rounded-full border border-zinc-200 bg-white px-5 py-3 text-sm font-medium text-zinc-900 shadow-sm hover:bg-zinc-50 inline-flex items-center gap-2">
+        Ver vídeo
+      </button>
+    </div>
+
+    <div class="preview-sub">Warm — bg-terracota-500 (CTA quente alternativo)</div>
+    <div class="flex flex-wrap gap-3 items-center">
+      <button class="rounded-full bg-terracota-500 px-5 py-3 text-sm font-medium text-white shadow-sm hover:bg-terracota-600 transition-all">
+        Encontre uma turma
+      </button>
+      <button class="rounded-full bg-terracota-500 px-4 py-2 text-sm font-medium text-white shadow-sm">
+        Pequeno
+      </button>
+    </div>
+
+    <div class="preview-sub">Ghost / Outline</div>
+    <div class="flex flex-wrap gap-3 items-center">
+      <button class="rounded-full border border-teal-500 text-teal-500 px-5 py-3 text-sm font-medium hover:bg-teal-50 transition-all">
+        Outline teal
+      </button>
+      <button class="rounded-full text-zinc-600 px-5 py-3 text-sm font-medium hover:bg-zinc-100 transition-all">
+        Ghost
+      </button>
+    </div>
+
+    <div class="preview-sub">Sobre fundo teal-950 (CTA dark section)</div>
+    <div class="rounded-2xl bg-teal-950 p-6 flex flex-wrap gap-3">
+      <button class="rounded-full bg-white px-5 py-3 text-sm font-medium text-teal-950 hover:bg-zinc-100 transition-all">
+        CTA principal
+      </button>
+      <button class="rounded-full border border-white/20 text-white px-5 py-3 text-sm font-medium hover:bg-white/10 transition-all">
+        Saiba mais
+      </button>
+    </div>
+  </div>
+
+  <!-- 03 — CARDS (3 VARIANTES) -->
+  <div class="preview-section">
+    <div class="preview-label">03 — Cards — 3 Variantes</div>
+
+    <div class="preview-sub">Feature Card Grande (outer: rounded-[2rem] / inner: rounded-[1.5rem] — Níveis 1 e 2)</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="rounded-[2rem] border border-zinc-200 bg-white p-5 shadow-sm hover:-translate-y-0.5 transition-all">
+        <div class="rounded-[1.5rem] border border-zinc-200 bg-zinc-50 p-5 mb-5 flex items-center justify-center" style="min-height:140px">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-teal-100 flex items-center justify-center">
+              <i data-lucide="mountain" style="width:20px;height:20px;stroke:#15697c;stroke-width:1.5"></i>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-terracota-100 flex items-center justify-center">
+              <i data-lucide="users" style="width:20px;height:20px;stroke:#8b4c39;stroke-width:1.5"></i>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-teal-100 flex items-center justify-center">
+              <i data-lucide="heart" style="width:20px;height:20px;stroke:#15697c;stroke-width:1.5"></i>
+            </div>
+          </div>
+        </div>
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-700 mb-3">
+          <span class="h-1.5 w-1.5 rounded-full bg-teal-500 inline-block"></span>
+          Comunidade
+        </span>
+        <h3 class="text-xl font-semibold text-zinc-950 mb-2">Encontros semanais</h3>
+        <p class="text-sm text-zinc-600 leading-7">Participe dos encontros presenciais e faça parte de uma comunidade que cresce junto em fé e amizade.</p>
+      </div>
+
+      <div class="rounded-[2rem] border border-zinc-200 bg-white p-5 shadow-sm hover:-translate-y-0.5 transition-all">
+        <div class="rounded-[1.5rem] border border-zinc-200 bg-zinc-50 p-5 mb-5 flex items-center justify-center" style="min-height:140px">
+          <div class="text-center">
+            <div class="text-5xl font-semibold tracking-tight" style="color:#15697c">240+</div>
+            <div class="text-sm text-zinc-500 mt-1 font-medium">jovens transformados</div>
+          </div>
+        </div>
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-terracota-100 px-3 py-1 text-xs font-medium text-terracota-700 mb-3">
+          <span class="h-1.5 w-1.5 rounded-full bg-terracota-400 inline-block"></span>
+          Impacto
+        </span>
+        <h3 class="text-xl font-semibold text-zinc-950 mb-2">Crescimento real</h3>
+        <p class="text-sm text-zinc-600 leading-7">Números que refletem histórias reais de transformação em Aracaju e região.</p>
+      </div>
+    </div>
+
+    <div class="preview-sub">Card Padrão (rounded-[1.5rem] — Nível 2)</div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="rounded-[1.5rem] border border-zinc-200 bg-white p-6 shadow-sm">
+        <div class="w-11 h-11 rounded-2xl bg-teal-100 flex items-center justify-center mb-4">
+          <i data-lucide="map-pin" style="width:20px;height:20px;stroke:#15697c;stroke-width:1.5"></i>
+        </div>
+        <h4 class="text-base font-semibold text-zinc-950 mb-1">Aracaju, SE</h4>
+        <p class="text-sm text-zinc-600 leading-6">Sede principal do Movimento.</p>
+      </div>
+      <div class="rounded-[1.5rem] border border-zinc-200 bg-white p-6 shadow-sm">
+        <div class="w-11 h-11 rounded-2xl bg-terracota-100 flex items-center justify-center mb-4">
+          <i data-lucide="calendar" style="width:20px;height:20px;stroke:#8b4c39;stroke-width:1.5"></i>
+        </div>
+        <h4 class="text-base font-semibold text-zinc-950 mb-1">Toda semana</h4>
+        <p class="text-sm text-zinc-600 leading-6">Encontros regulares, formação e missão.</p>
+      </div>
+      <div class="rounded-[1.5rem] border border-zinc-200 bg-white p-6 shadow-sm">
+        <div class="w-11 h-11 rounded-2xl bg-teal-100 flex items-center justify-center mb-4">
+          <i data-lucide="star" style="width:20px;height:20px;stroke:#15697c;stroke-width:1.5"></i>
+        </div>
+        <h4 class="text-base font-semibold text-zinc-950 mb-1">15–30 anos</h4>
+        <p class="text-sm text-zinc-600 leading-6">Para jovens que querem mais da vida.</p>
+      </div>
+    </div>
+
+    <div class="preview-sub">Automation Item / Card de Lista (rounded-2xl — Nível 4)</div>
+    <div class="space-y-2 max-w-lg">
+      <div class="rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-sm flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-teal-100 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="mountain" style="width:16px;height:16px;stroke:#15697c;stroke-width:1.5"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-medium text-zinc-950">Formação de líderes</div>
+          <div class="text-xs text-zinc-500">Sábados, 9h — Sede</div>
+        </div>
+        <span class="rounded-full bg-teal-100 px-2.5 py-1 text-xs font-medium text-teal-700">Ativo</span>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-sm flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-terracota-100 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="users" style="width:16px;height:16px;stroke:#8b4c39;stroke-width:1.5"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-medium text-zinc-950">Grupos de oração</div>
+          <div class="text-xs text-zinc-500">Quartas, 19h — Online</div>
+        </div>
+        <span class="rounded-full bg-terracota-100 px-2.5 py-1 text-xs font-medium text-terracota-700">Vagas</span>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 shadow-sm flex items-center gap-3 opacity-60">
+        <div class="w-9 h-9 rounded-xl bg-zinc-100 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="calendar" style="width:16px;height:16px;stroke:#a1a1aa;stroke-width:1.5"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-medium text-zinc-500">Retiro de Junho</div>
+          <div class="text-xs text-zinc-400">Em breve</div>
+        </div>
+        <span class="rounded-full border border-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-400">Aguardando</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 — NAVIGATION BAR -->
+  <div class="preview-section">
+    <div class="preview-label">04 — Navigation Bar (sticky, backdrop-blur, border-bottom zinc-200)</div>
+    <div class="rounded-[1.5rem] border border-zinc-200 bg-white shadow-sm overflow-hidden">
+      <div class="flex items-center justify-between px-6 h-16">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-teal-500 flex items-center justify-center">
+            <i data-lucide="mountain" style="width:16px;height:16px;stroke:white;stroke-width:1.5"></i>
+          </div>
+          <span class="text-sm font-semibold text-zinc-950">Escalada Aju</span>
+        </div>
+        <nav class="hidden md:flex items-center gap-1">
+          <a href="#" class="rounded-full px-4 py-2 text-sm font-medium text-teal-500 bg-teal-50 no-underline">Início</a>
+          <a href="#" class="rounded-full px-4 py-2 text-sm font-medium text-zinc-600 hover:text-teal-500 hover:bg-teal-50 transition-all no-underline">Quem somos</a>
+          <a href="#" class="rounded-full px-4 py-2 text-sm font-medium text-zinc-600 hover:text-teal-500 hover:bg-teal-50 transition-all no-underline">Encontros</a>
+          <a href="#" class="rounded-full px-4 py-2 text-sm font-medium text-zinc-600 hover:text-teal-500 hover:bg-teal-50 transition-all no-underline">Contato</a>
+        </nav>
+        <button class="rounded-full bg-teal-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-600 transition-all">
+          Participar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 — CTA SECTION ESCURA -->
+  <div class="preview-section">
+    <div class="preview-label">05 — CTA Section Escura (rounded-[2rem] bg-teal-950 com radial gradients)</div>
+    <div class="rounded-[2rem] bg-teal-950 overflow-hidden relative" style="min-height:320px">
+      <div class="absolute inset-0 pointer-events-none overflow-hidden">
+        <div style="position:absolute;top:-40%;left:-10%;width:60%;height:200%;background:radial-gradient(ellipse, rgba(21,105,124,0.45) 0%, transparent 60%)"></div>
+        <div style="position:absolute;bottom:-40%;right:-10%;width:50%;height:160%;background:radial-gradient(ellipse, rgba(139,76,57,0.30) 0%, transparent 55%)"></div>
+      </div>
+      <div class="relative z-10 px-8 py-16 text-center flex flex-col items-center">
+        <div class="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-sm font-medium mb-6 inline-flex items-center gap-2" style="color:#65b5c4">
+          <span class="h-1.5 w-1.5 rounded-full inline-block" style="background:#65b5c4"></span>
+          Movimento ativo em Aracaju
+        </div>
+        <h2 class="text-4xl sm:text-5xl font-semibold tracking-tight text-white mb-4 max-w-2xl">
+          Faça parte do Escalada Aju
+        </h2>
+        <p class="text-lg leading-8 mb-8 max-w-xl" style="color:rgba(255,255,255,0.65)">
+          Uma comunidade de jovens que cresce, ora e transforma Aracaju juntos.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button class="rounded-full bg-white px-5 py-3 text-sm font-medium text-teal-950 shadow-sm hover:bg-zinc-100 transition-all">
+            Quero participar
+          </button>
+          <button class="rounded-full border border-white/20 text-white px-5 py-3 text-sm font-medium hover:bg-white/10 transition-all">
+            Saiba mais
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 — FAQ ACCORDION -->
+  <div class="preview-section">
+    <div class="preview-label">06 — FAQ Accordion (rounded-2xl border border-zinc-200 p-5 shadow-sm)</div>
+    <div class="max-w-2xl space-y-2">
+      <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <button class="flex items-center justify-between w-full text-left gap-4" onclick="toggleFaq(this)">
+          <span class="text-base font-semibold text-zinc-950">O que é o Movimento Escalada Aju?</span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#15697c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(45deg);transition:transform 0.2s ease;flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+        <div class="faq-content pt-4 text-base text-zinc-600 leading-7">
+          É um movimento de evangelização e formação para jovens de 15 a 30 anos, com encontros semanais, grupos de oração e atividades de missão em Aracaju.
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <button class="flex items-center justify-between w-full text-left gap-4" onclick="toggleFaq(this)">
+          <span class="text-base font-semibold text-zinc-950">Preciso ser católico para participar?</span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(0deg);transition:transform 0.2s ease;flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+        <div class="faq-content pt-4 text-base text-zinc-600 leading-7" style="display:none">
+          Sim, o Escalada é um movimento católico. Se você está buscando algo sem saber ao certo o quê, também é bem-vindo para conhecer.
+        </div>
+      </div>
+
+      <div class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+        <button class="flex items-center justify-between w-full text-left gap-4" onclick="toggleFaq(this)">
+          <span class="text-base font-semibold text-zinc-950">Onde acontecem os encontros?</span>
+          <svg class="faq-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="transform:rotate(0deg);transition:transform 0.2s ease;flex-shrink:0"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+        <div class="faq-content pt-4 text-base text-zinc-600 leading-7" style="display:none">
+          Na sede em Aracaju. Confira a agenda de encontros e o endereço completo na seção de eventos.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 — ESCALA DE CORES -->
+  <div class="preview-section">
+    <div class="preview-label">07 — Escala de Cores</div>
+
+    <div class="preview-sub">Teal — Primary (500 = #15697C — base da logo)</div>
+    <div class="grid grid-cols-11 gap-1.5 mb-6">
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl border border-zinc-200" style="background:#edf6f8"></div><span class="text-xs text-zinc-400">50</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#d0eaee"></div><span class="text-xs text-zinc-400">100</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#a1d4dd"></div><span class="text-xs text-zinc-400">200</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#65b5c4"></div><span class="text-xs text-zinc-400">300</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#2d94a9"></div><span class="text-xs text-zinc-400">400</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl ring-2 ring-offset-2 ring-teal-500" style="background:#15697c"></div><span class="text-xs font-semibold" style="color:#15697c">500</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#125f70"></div><span class="text-xs text-zinc-400">600</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#0f5261"></div><span class="text-xs text-zinc-400">700</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#0b3f4b"></div><span class="text-xs text-zinc-400">800</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#082d36"></div><span class="text-xs text-zinc-400">900</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#041a20"></div><span class="text-xs text-zinc-400">950</span></div>
+    </div>
+
+    <div class="preview-sub">Terracota — Secondary (500 = #8B4C39 — pomba da logo)</div>
+    <div class="grid grid-cols-11 gap-1.5 mb-6">
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl border border-zinc-200" style="background:#fdf3f0"></div><span class="text-xs text-zinc-400">50</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#fae3dc"></div><span class="text-xs text-zinc-400">100</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#f5c5b4"></div><span class="text-xs text-zinc-400">200</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#eda088"></div><span class="text-xs text-zinc-400">300</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#c9715a"></div><span class="text-xs text-zinc-400">400</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl ring-2 ring-offset-2" style="background:#8b4c39;--tw-ring-color:#8b4c39"></div><span class="text-xs font-semibold" style="color:#8b4c39">500</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#7a4231"></div><span class="text-xs text-zinc-400">600</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#663828"></div><span class="text-xs text-zinc-400">700</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#4e2b1e"></div><span class="text-xs text-zinc-400">800</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#371e15"></div><span class="text-xs text-zinc-400">900</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#20100c"></div><span class="text-xs text-zinc-400">950</span></div>
+    </div>
+
+    <div class="preview-sub">Zinc — Neutros PulseGrid (mantidos sem alteracao)</div>
+    <div class="grid grid-cols-11 gap-1.5">
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl border border-zinc-200" style="background:#fafafa"></div><span class="text-xs text-zinc-400">50</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl border border-zinc-200" style="background:#f4f4f5"></div><span class="text-xs text-zinc-400">100</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#e4e4e7"></div><span class="text-xs text-zinc-400">200</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#d4d4d8"></div><span class="text-xs text-zinc-400">300</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#a1a1aa"></div><span class="text-xs text-zinc-400">400</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#71717a"></div><span class="text-xs text-zinc-400">500</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#52525b"></div><span class="text-xs text-zinc-400">600</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#3f3f46"></div><span class="text-xs text-zinc-400">700</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#27272a"></div><span class="text-xs text-zinc-400">800</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#18181b"></div><span class="text-xs text-zinc-400">900</span></div>
+      <div class="flex flex-col items-center gap-1"><div class="w-full h-10 rounded-xl" style="background:#09090b"></div><span class="text-xs text-zinc-400">950</span></div>
+    </div>
+  </div>
+
+  <!-- 08 — TIPOGRAFIA -->
+  <div class="preview-section">
+    <div class="preview-label">08 — Tipografia — Plus Jakarta Sans (espelho PulseGrid)</div>
+
+    <div class="mb-6 pb-6 border-b border-zinc-100">
+      <div class="text-xs font-medium text-zinc-400 uppercase tracking-[0.2em] mb-2">H1 — text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight</div>
+      <div class="text-5xl font-semibold tracking-tight text-zinc-950 leading-tight">Escalada Aju</div>
+    </div>
+
+    <div class="mb-6 pb-6 border-b border-zinc-100">
+      <div class="text-xs font-medium text-zinc-400 uppercase tracking-[0.2em] mb-2">H2 — text-4xl sm:text-5xl font-semibold tracking-tight</div>
+      <div class="text-4xl font-semibold tracking-tight text-zinc-950">Uma comunidade que sobe junto</div>
+    </div>
+
+    <div class="mb-6 pb-6 border-b border-zinc-100">
+      <div class="text-xs font-medium text-zinc-400 uppercase tracking-[0.2em] mb-2">H3 — text-xl font-semibold</div>
+      <div class="text-xl font-semibold text-zinc-950">Formacao, missao e comunidade</div>
+    </div>
+
+    <div class="mb-6 pb-6 border-b border-zinc-100">
+      <div class="text-xs font-medium text-zinc-400 uppercase tracking-[0.2em] mb-2">Body Large — text-lg font-normal leading-8</div>
+      <div class="text-lg leading-8 text-zinc-600">O Escalada Aju e um movimento de jovens que cresce, ora e transforma Aracaju com alegria e fe.</div>
+    </div>
+
+    <div class="mb-6 pb-6 border-b border-zinc-100">
+      <div class="text-xs font-medium text-zinc-400 uppercase tracking-[0.2em] mb-2">Body — text-base font-normal leading-7</div>
+      <div class="text-base leading-7 text-zinc-600">Participe dos nossos encontros semanais, grupos de oracao e atividades de missao. Juntos somos mais fortes.</div>
+    </div>
+
+    <div class="mb-6 pb-6 border-b border-zinc-100">
+      <div class="text-xs font-medium text-zinc-400 uppercase tracking-[0.2em] mb-2">Label — text-sm font-medium</div>
+      <div class="text-sm font-medium text-zinc-950">Proximo encontro · Sabado, 9h</div>
+    </div>
+
+    <div>
+      <div class="text-xs font-medium text-zinc-400 uppercase tracking-[0.2em] mb-2">Caption/Eyebrow — text-xs font-medium uppercase tracking-[0.2em]</div>
+      <div class="text-xs font-medium uppercase tracking-[0.2em]" style="color:#15697c">Movimento Escalada Aju — Aracaju, SE</div>
+    </div>
+  </div>
+
+  <!-- 09 — BADGES E INDICATORS -->
+  <div class="preview-section">
+    <div class="preview-label">09 — Badges e Indicators (todos rounded-full)</div>
+    <div class="flex flex-wrap gap-2 items-center">
+      <span class="rounded-full bg-teal-100 px-2.5 py-1 text-xs font-medium text-teal-700">Primary teal</span>
+      <span class="rounded-full bg-terracota-100 px-2.5 py-1 text-xs font-medium text-terracota-700">Terracota warm</span>
+      <span class="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">Muted neutro</span>
+      <span class="rounded-full border border-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-500">Outline</span>
+      <span class="rounded-full bg-teal-100 px-2.5 py-1 text-xs font-medium text-teal-700 inline-flex items-center gap-1.5">
+        <span class="h-1.5 w-1.5 rounded-full bg-teal-500 inline-block"></span>
+        Ativo
+      </span>
+      <span class="rounded-full bg-terracota-100 px-2.5 py-1 text-xs font-medium text-terracota-700 inline-flex items-center gap-1.5">
+        <span class="h-1.5 w-1.5 rounded-full bg-terracota-400 inline-block"></span>
+        Vagas
+      </span>
+      <span class="rounded-full border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-500 inline-flex items-center gap-1.5">
+        <span class="h-1.5 w-1.5 rounded-full bg-zinc-300 inline-block"></span>
+        Em breve
+      </span>
+    </div>
+  </div>
+
+  <!-- 10 — TOKENS SEMANTICOS HSL -->
+  <div class="preview-section">
+    <div class="preview-label">10 — Tokens Semanticos HSL (formato globals.css shadcn/ui)</div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#15697c"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--primary</div><div class="text-xs text-zinc-500">192 72% 28% · #15697C</div></div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#ffffff;border:1px solid #e4e4e7"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--primary-foreground</div><div class="text-xs text-zinc-500">0 0% 100% · #FFFFFF</div></div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#fae3dc"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--accent</div><div class="text-xs text-zinc-500">15 84% 93% · #FAE3DC</div></div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#4e2b1e"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--accent-foreground</div><div class="text-xs text-zinc-500">16 44% 21% · #4E2B1E</div></div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#09090b"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--foreground</div><div class="text-xs text-zinc-500">240 10% 3.9% · #09090B</div></div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#e4e4e7"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--border</div><div class="text-xs text-zinc-500">240 5.9% 90% · #E4E4E7</div></div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#f4f4f5;border:1px solid #e4e4e7"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--muted</div><div class="text-xs text-zinc-500">240 4.8% 95.9% · #F4F4F5</div></div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#71717a"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--muted-foreground</div><div class="text-xs text-zinc-500">240 3.8% 46.1% · #71717A</div></div>
+      </div>
+      <div class="rounded-2xl border border-zinc-200 p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl flex-shrink-0" style="background:#15697c"></div>
+        <div><div class="text-sm font-semibold text-zinc-950">--ring</div><div class="text-xs text-zinc-500">192 72% 28% · #15697C</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RODAPE -->
+  <div class="text-center py-8">
+    <div class="text-xs font-medium uppercase tracking-[0.2em] text-zinc-400">
+      Design System — Movimento Escalada Aju v2.0 · PulseGrid + Identidade Escalada
+    </div>
+  </div>
+
+  <script>
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('svg');
+      const isOpen = content.style.display !== 'none';
+      content.style.display = isOpen ? 'none' : 'block';
+      icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(45deg)';
+      icon.setAttribute('stroke', isOpen ? '#71717a' : '#15697c');
+    }
+  </script>
+</body>
+</html>

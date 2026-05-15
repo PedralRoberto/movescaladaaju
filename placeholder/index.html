@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Movimento Escalada Aju — Em construção</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            teal: {
+              50:  '#edf6f8',
+              100: '#d0eaee',
+              200: '#a1d4dd',
+              300: '#65b5c4',
+              400: '#2d94a9',
+              500: '#15697c',
+              600: '#125f70',
+              700: '#0f5261',
+              800: '#0b3f4b',
+              900: '#082d36',
+              950: '#041a20',
+            },
+            terracota: {
+              50:  '#fdf3f0',
+              100: '#fae3dc',
+              200: '#f5c5b4',
+              300: '#eda088',
+              400: '#c9715a',
+              500: '#8b4c39',
+              600: '#7a4231',
+              700: '#663828',
+              800: '#4e2b1e',
+              900: '#371e15',
+              950: '#20100c',
+            },
+          },
+          keyframes: {
+            'fade-up': {
+              '0%':   { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            'fade-in': {
+              '0%':   { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+          },
+          animation: {
+            'fade-up':      'fade-up 0.6s ease-out both',
+            'fade-up-slow': 'fade-up 0.7s ease-out 0.15s both',
+            'fade-up-lag':  'fade-up 0.7s ease-out 0.30s both',
+            'fade-up-last': 'fade-up 0.7s ease-out 0.45s both',
+            'fade-in':      'fade-in 0.8s ease-out 0.1s both',
+          },
+        },
+      },
+    }
+  </script>
+
+  <!-- Lucide CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Dot-grid background sutil */
+    .dot-grid {
+      background-image: radial-gradient(circle, #e4e4e7 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Gradiente radial decorativo — opacidade muito baixa */
+    .bg-glow-teal {
+      background: radial-gradient(ellipse 60% 50% at 30% 40%, rgba(21, 105, 124, 0.06) 0%, transparent 70%);
+    }
+    .bg-glow-terracota {
+      background: radial-gradient(ellipse 50% 45% at 75% 65%, rgba(139, 76, 57, 0.05) 0%, transparent 70%);
+    }
+
+    /* Focus ring acessível */
+    .btn-primary:focus-visible {
+      outline: 2px solid #15697c;
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-zinc-950 min-h-screen flex flex-col">
+
+  <!-- Fundo decorativo -->
+  <div class="fixed inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute inset-0 dot-grid opacity-60"></div>
+    <div class="absolute inset-0 bg-glow-teal"></div>
+    <div class="absolute inset-0 bg-glow-terracota"></div>
+    <!-- Fade over dot-grid nas bordas -->
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, white 100%);"></div>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <main class="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-16 text-center">
+
+    <!-- Logo -->
+    <div class="animate-fade-up">
+      <img
+        src="../escalada-logo.png"
+        alt="Movimento Escalada Aju"
+        style="max-width: 160px; width: 100%; height: auto;"
+        class="mx-auto"
+      />
+    </div>
+
+    <!-- Divider decorativo -->
+    <div class="animate-fade-up-slow mt-10 flex items-center gap-3 justify-center">
+      <div class="h-px w-10 bg-zinc-200"></div>
+      <span class="text-zinc-400" style="font-size: 0.625rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;">Escalada Aju</span>
+      <div class="h-px w-10 bg-zinc-200"></div>
+    </div>
+
+    <!-- Título -->
+    <h1 class="animate-fade-up-slow mt-6 text-4xl sm:text-5xl font-semibold tracking-tight text-zinc-950" style="line-height: 1.15;">
+      Em construção
+    </h1>
+
+    <!-- Subtítulo -->
+    <p class="animate-fade-up-lag mt-4 text-base sm:text-lg text-zinc-500 leading-7 max-w-sm sm:max-w-md mx-auto font-normal">
+      Estamos preparando algo especial.<br />
+      O site do Movimento Escalada Aju chega em breve.
+    </p>
+
+    <!-- Badge edições -->
+    <div class="animate-fade-up-lag mt-8">
+      <div class="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 shadow-sm">
+        <span class="h-1.5 w-1.5 rounded-full bg-teal-500 flex-shrink-0"></span>
+        <span class="text-xs font-semibold text-zinc-600" style="letter-spacing: 0.01em;">
+          Vigésima Primeira Escalada Regular &middot; Décima Escalada Master
+        </span>
+      </div>
+    </div>
+
+    <!-- Botão -->
+    <div class="animate-fade-up-last mt-10">
+      <a
+        href="/admin"
+        class="btn-primary inline-flex items-center gap-2 rounded-full bg-teal-500 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-teal-600 focus-visible:outline-2"
+        style="min-height: 44px;"
+      >
+        <i data-lucide="layout-dashboard" style="width: 16px; height: 16px; stroke-width: 1.5;"></i>
+        Acessar Painel
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="relative z-10 pb-8 text-center">
+    <p class="text-xs text-zinc-400 font-normal">
+      Desenvolvido por Roberto Pedral &middot; 2026
+    </p>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>

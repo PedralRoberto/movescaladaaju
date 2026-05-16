@@ -91,17 +91,26 @@ export default async function UsuariosPage() {
   )
 }
 
+const ROLE_LABELS: Record<string, { label: string; color: string }> = {
+  admin: { label: 'Admin', color: 'bg-teal-100 text-teal-700' },
+  secretaria_movimento: { label: 'Secretaria do Movimento', color: 'bg-zinc-100 text-zinc-700' },
+  secretaria_encontro: { label: 'Secretaria do Encontro', color: 'bg-blue-100 text-blue-700' },
+  secretaria_vigilia: { label: 'Secretaria da Vigília', color: 'bg-indigo-100 text-indigo-700' },
+  coordenador_preparatoria: { label: 'Coord. Preparatória', color: 'bg-amber-100 text-amber-700' },
+}
+
 function RoleBadge({ role }: { role?: string }) {
-  if (role === 'admin') {
+  const config = role ? ROLE_LABELS[role] : null
+  if (!config) {
     return (
-      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-700">
-        Admin
+      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-400">
+        —
       </span>
     )
   }
   return (
-    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600">
-      Secretária
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color}`}>
+      {config.label}
     </span>
   )
 }

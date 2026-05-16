@@ -120,10 +120,10 @@ export function ChamadaGrid({
     return (
       <div className="flex flex-col items-center justify-center py-16 bg-white rounded-xl border border-zinc-200 text-center">
         <p className="text-sm font-medium text-zinc-900 mb-1">
-          Cadastre as reuniões primeiro
+          Cadastre as preparatórias primeiro
         </p>
         <p className="text-xs text-zinc-400">
-          Defina as datas das reuniões prévias acima para habilitar o registro
+          Defina as datas das preparatórias acima para habilitar o registro
           de presença.
         </p>
       </div>
@@ -150,7 +150,7 @@ export function ChamadaGrid({
                       reuniao ? 'text-zinc-700' : 'text-zinc-300'
                     }
                   >
-                    R{n}
+                    {n}ª
                   </span>
                 </th>
               )

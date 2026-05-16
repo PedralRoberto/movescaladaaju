@@ -79,7 +79,7 @@ export default async function ChamadaPage({
           {nome}
         </Link>
         <span>/</span>
-        <span className="text-zinc-600 font-medium">Chamada</span>
+        <span className="text-zinc-600 font-medium">Preparatórias</span>
       </div>
 
       {/* Header */}
@@ -88,15 +88,15 @@ export default async function ChamadaPage({
           <ClipboardList className="h-5 w-5 text-teal-500" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Chamada</h1>
+          <h1 className="text-2xl font-bold text-zinc-900">Preparatórias</h1>
           <p className="text-zinc-500 mt-0.5 text-sm">{nome}</p>
         </div>
       </div>
 
-      {/* Reuniões */}
+      {/* Preparatórias */}
       <section className="mb-10">
         <h2 className="text-base font-semibold text-zinc-900 mb-4">
-          Reuniões prévias
+          Datas das preparatórias
         </h2>
         <ReuniaoSlots retiroId={id} reunioes={reunioesList} />
       </section>

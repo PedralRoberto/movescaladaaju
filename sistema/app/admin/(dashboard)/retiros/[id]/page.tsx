@@ -273,7 +273,7 @@ export default async function RetiroDetalhePage({
             </Card>
           </Link>
 
-          {/* Card de Chamada — ativo */}
+          {/* Card de Preparatórias — ativo */}
           <Link href={`/admin/retiros/${id}/chamada`} className="block">
             <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
               <CardContent className="p-5">
@@ -283,10 +283,10 @@ export default async function RetiroDetalhePage({
                   </div>
                   <div>
                     <p className="text-sm font-medium text-zinc-900">
-                      Chamada
+                      Preparatórias
                     </p>
                     <p className="text-xs text-zinc-400 mt-0.5">
-                      {totalReunioes ?? 0}/4 reunião(ões)
+                      {totalReunioes ?? 0}/4 preparatória(s)
                     </p>
                   </div>
                 </div>

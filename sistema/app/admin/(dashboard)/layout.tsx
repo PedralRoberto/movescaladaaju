@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { LayoutDashboard, CalendarDays, Users } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, Users, MessageCircle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { NavLink } from '@/components/admin/nav-link'
 import { SidebarLogout } from '@/components/admin/sidebar-logout'
@@ -19,7 +19,9 @@ export default async function AdminLayout({
     redirect('/admin/login')
   }
 
-  const isAdmin = user.app_metadata?.role === 'admin'
+  const role = user.app_metadata?.role as string | undefined
+  const isAdmin = role === 'admin'
+  const isPreparatoria = role === 'coordenador_preparatoria'
 
   return (
     <AdminShell
@@ -43,23 +45,33 @@ export default async function AdminLayout({
 
           {/* Navegação */}
           <nav className="flex-1 px-3 py-4 space-y-1">
-            <NavLink
-              href="/admin"
-              label="Dashboard"
-              icon={<LayoutDashboard className="h-4 w-4 shrink-0" />}
-              exact
-            />
-            <NavLink
-              href="/admin/retiros"
-              label="Retiros"
-              icon={<CalendarDays className="h-4 w-4 shrink-0" />}
-            />
-            {isAdmin && (
+            {isPreparatoria ? (
               <NavLink
-                href="/admin/usuarios"
-                label="Usuários"
-                icon={<Users className="h-4 w-4 shrink-0" />}
+                href="/admin/preparatoria"
+                label="Inscritos"
+                icon={<MessageCircle className="h-4 w-4 shrink-0" />}
               />
+            ) : (
+              <>
+                <NavLink
+                  href="/admin"
+                  label="Dashboard"
+                  icon={<LayoutDashboard className="h-4 w-4 shrink-0" />}
+                  exact
+                />
+                <NavLink
+                  href="/admin/retiros"
+                  label="Retiros"
+                  icon={<CalendarDays className="h-4 w-4 shrink-0" />}
+                />
+                {isAdmin && (
+                  <NavLink
+                    href="/admin/usuarios"
+                    label="Usuários"
+                    icon={<Users className="h-4 w-4 shrink-0" />}
+                  />
+                )}
+              </>
             )}
           </nav>
 

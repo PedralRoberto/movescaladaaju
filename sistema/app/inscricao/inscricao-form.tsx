@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useActionState } from 'react'
+import { useState, useActionState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { submeterInscricao } from './actions'
 
 interface RetiroInfo {
@@ -78,6 +79,13 @@ export function InscricaoForm({ retiros }: InscricaoFormProps) {
   const [modalidade, setModalidade] = useState('padrao')
   const [retiroId, setRetiroId] = useState(retiros[0]?.id ?? '')
   const [tocaInstrumento, setTocaInstrumento] = useState<string | null>(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    if (state?.redirectTo) {
+      router.push(state.redirectTo)
+    }
+  }, [state, router])
 
   const retiroAtual = retiros.find((r) => r.id === retiroId) ?? retiros[0]
   const vagasDisponiveis = retiroAtual
@@ -587,10 +595,10 @@ export function InscricaoForm({ retiros }: InscricaoFormProps) {
 
             <button
               type="submit"
-              disabled={isPending}
+              disabled={isPending || !!state?.redirectTo}
               className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold text-sm py-3 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isPending
+              {isPending || state?.redirectTo
                 ? 'Enviando...'
                 : listaEspera
                   ? 'Entrar na lista de espera'

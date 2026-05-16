@@ -1,12 +1,11 @@
 'use server'
 
-import { redirect } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function submeterInscricao(
-  _prevState: { error?: string } | null,
+  _prevState: { error?: string; redirectTo?: string } | null,
   formData: FormData
-): Promise<{ error?: string }> {
+): Promise<{ error?: string; redirectTo?: string }> {
   const supabase = createAdminClient()
 
   const retiroId = (formData.get('retiro_id') as string)?.trim()
@@ -94,6 +93,7 @@ export async function submeterInscricao(
     .single()
 
   if (error) {
+    console.error('[inscricao] Supabase insert error:', JSON.stringify(error))
     return { error: 'Erro ao realizar inscrição. Tente novamente.' }
   }
 
@@ -123,5 +123,5 @@ export async function submeterInscricao(
     await supabase.from('inscricoes').update(fileUpdates).eq('id', inscricao.id)
   }
 
-  redirect(`/inscricao/sucesso?s=${status}`)
+  return { redirectTo: `/inscricao/sucesso?s=${status}` }
 }

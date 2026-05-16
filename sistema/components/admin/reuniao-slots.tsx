@@ -45,7 +45,7 @@ function ReuniaoSlot({ retiroId, numero, reuniao }: SlotProps) {
             </div>
             <div className="min-w-0">
               <p className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-0.5">
-                Reunião {numero}
+                {numero}ª Preparatória
               </p>
               {dataFormatada ? (
                 <div className="space-y-0.5">

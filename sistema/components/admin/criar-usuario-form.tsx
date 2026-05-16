@@ -76,7 +76,10 @@ export function CriarUsuarioForm() {
               <div className="space-y-1.5">
                 <label className="block text-xs font-medium text-zinc-700">Cargo</label>
                 <select name="role" required className={IN} disabled={pending}>
-                  <option value="secretaria">Secretária</option>
+                  <option value="secretaria_movimento">Secretaria do Movimento</option>
+                  <option value="secretaria_encontro">Secretaria do Encontro</option>
+                  <option value="secretaria_vigilia">Secretaria da Vigília</option>
+                  <option value="coordenador_preparatoria">Coordenador de Preparatória</option>
                   <option value="admin">Admin</option>
                 </select>
               </div>

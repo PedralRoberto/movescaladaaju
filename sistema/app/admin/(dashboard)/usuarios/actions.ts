@@ -30,7 +30,8 @@ export async function criarUsuario(
     if (password.length < 8) {
       return { error: 'A senha deve ter pelo menos 8 caracteres.' }
     }
-    if (!['admin', 'secretaria'].includes(role)) {
+    const rolesValidos = ['admin', 'secretaria_movimento', 'secretaria_encontro', 'secretaria_vigilia', 'coordenador_preparatoria']
+    if (!rolesValidos.includes(role)) {
       return { error: 'Cargo inválido.' }
     }
 

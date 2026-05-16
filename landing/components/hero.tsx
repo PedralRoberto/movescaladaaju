@@ -6,9 +6,9 @@ const SISTEMA_URL =
 
 export function Hero() {
   return (
-    <section className="h-screen overflow-hidden flex bg-white">
+    <section className="h-screen overflow-hidden relative flex bg-white">
       {/* ── Coluna esquerda — conteúdo ───────────────────────────── */}
-      <div className="flex flex-col justify-center px-12 lg:px-20 w-full lg:w-[38%] shrink-0 relative z-10">
+      <div className="flex flex-col justify-center px-16 lg:pl-32 lg:pr-12 w-full lg:w-[48%] shrink-0 z-10 relative">
         {/* Badge */}
         <p className="text-[10px] font-semibold tracking-[0.28em] uppercase text-[#15697C] mb-8">
           Movimento Jovem Católico · Aracaju
@@ -53,32 +53,32 @@ export function Hero() {
         </div>
       </div>
 
-      {/* ── Coluna direita — imagem ──────────────────────────────── */}
-      <div className="hidden lg:block flex-1 relative overflow-hidden">
-        {/* Fade na junção com o texto — cobre só os primeiros ~15% da coluna */}
-        <div
-          className="absolute inset-y-0 left-0 z-10 pointer-events-none"
-          style={{
-            width: "15%",
-            background: "linear-gradient(to right, white, transparent)",
-          }}
-        />
-        {/* Fade na base — esconde o chão expandido pela IA (~25%) */}
-        <div
-          className="absolute inset-x-0 bottom-0 z-10 pointer-events-none"
-          style={{
-            height: "25%",
-            background: "linear-gradient(to top, white, transparent)",
-          }}
-        />
-        <Image
-          src="/hero-img.png"
-          alt="Escalada — retiro de jovens"
-          fill
-          className="object-cover object-right"
-          priority
-        />
-      </div>
+      {/* ── Imagem — absolute na section, sem coluna flex ───────── */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/desenho-hero.png"
+        alt="Escalada — retiro de jovens"
+        className="hidden lg:block absolute right-0 bottom-0 w-auto pointer-events-none"
+        style={{ height: "115%" }}
+      />
+
+      {/* Fade suave na junção texto/imagem */}
+      <div
+        className="hidden lg:block absolute inset-y-0 z-[5] pointer-events-none"
+        style={{
+          left: "42%",
+          width: "8%",
+          background: "linear-gradient(to right, white, transparent)",
+        }}
+      />
+      {/* Fade na base */}
+      <div
+        className="absolute inset-x-0 bottom-0 z-[5] pointer-events-none"
+        style={{
+          height: "25%",
+          background: "linear-gradient(to top, white, transparent)",
+        }}
+      />
     </section>
   );
 }

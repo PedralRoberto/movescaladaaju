@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NavLink } from '@/components/admin/nav-link'
 import { SidebarLogout } from '@/components/admin/sidebar-logout'
 import { AdminShell } from '@/components/admin/admin-shell'
+import { VigíliaShell } from '@/components/admin/vigilia-shell'
 
 export default async function AdminLayout({
   children,
@@ -23,6 +24,14 @@ export default async function AdminLayout({
   const isAdmin = role === 'admin'
   const isPreparatoria = role === 'coordenador_preparatoria'
   const isVigilia = role === 'secretaria_vigilia'
+
+  if (isVigilia) {
+    return (
+      <VigíliaShell email={user.email ?? ''}>
+        {children}
+      </VigíliaShell>
+    )
+  }
 
   return (
     <AdminShell

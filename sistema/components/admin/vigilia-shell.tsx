@@ -1,8 +1,7 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { LogOut } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { useLogout, LogoutConfirmModal } from './logout-confirm'
 
 export function VigíliaShell({
   email,
@@ -13,14 +12,7 @@ export function VigíliaShell({
   apelido?: string
   children: React.ReactNode
 }) {
-  const router = useRouter()
-
-  async function handleLogout() {
-    const supabase = createClient()
-    await supabase.auth.signOut()
-    router.push('/admin/login')
-    router.refresh()
-  }
+  const { open, setOpen, pending, confirm } = useLogout()
 
   const inicial = (apelido ?? email).charAt(0).toUpperCase()
   const nome = apelido ?? email
@@ -64,7 +56,7 @@ export function VigíliaShell({
 
             {/* Sair */}
             <button
-              onClick={handleLogout}
+              onClick={() => setOpen(true)}
               className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-700 transition-colors"
               title="Sair da conta"
             >
@@ -77,6 +69,13 @@ export function VigíliaShell({
 
       {/* Conteúdo */}
       <main className="flex-1 overflow-auto">{children}</main>
+
+      <LogoutConfirmModal
+        open={open}
+        pending={pending}
+        onConfirm={confirm}
+        onCancel={() => setOpen(false)}
+      />
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { Minus, Plus, Eye } from 'lucide-react'
 import {
   toggleFotoVigilia,
   atualizarCartasVigilia,
+  togglePresencaResponsavel,
 } from '@/app/admin/(dashboard)/retiros/[id]/vigilia/actions'
 import type { VigiliaMaterial } from '@/types/database'
 
@@ -19,6 +20,18 @@ interface InscritoRow {
   nome_responsavel: string | null
 }
 
+interface ReuniaoRow {
+  id: string
+  numero: number
+  data: string
+}
+
+interface PresencaRow {
+  inscricao_id: string
+  reuniao_id: string
+  presente: boolean
+}
+
 interface VigiliaMaterialState {
   foto_crianca: boolean
   foto_adolescente: boolean
@@ -30,6 +43,15 @@ interface VigíliaGridProps {
   retiroId: string
   inscritos: InscritoRow[]
   materiais: VigiliaMaterial[]
+  reunioes: ReuniaoRow[]
+  presencasResp: PresencaRow[]
+}
+
+function formatData(data: string) {
+  return new Date(data + 'T00:00:00').toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+  })
 }
 
 function StatusBadge({ mat }: { mat: VigiliaMaterialState }) {
@@ -148,7 +170,46 @@ function FotoCheck({
   )
 }
 
-export function VigíliaGrid({ retiroId, inscritos, materiais }: VigíliaGridProps) {
+function RespCheck({
+  inscricaoId,
+  reuniaoId,
+  retiroId,
+  checked,
+}: {
+  inscricaoId: string
+  reuniaoId: string
+  retiroId: string
+  checked: boolean
+}) {
+  const [valor, setValor] = useState(checked)
+  const [, startTransition] = useTransition()
+
+  function toggle() {
+    const novo = !valor
+    setValor(novo)
+    startTransition(async () => {
+      const result = await togglePresencaResponsavel(inscricaoId, reuniaoId, retiroId, novo)
+      if (result.error) setValor(valor)
+    })
+  }
+
+  return (
+    <input
+      type="checkbox"
+      checked={valor}
+      onChange={toggle}
+      className="h-4 w-4 rounded border-zinc-300 accent-teal-600 cursor-pointer"
+    />
+  )
+}
+
+export function VigíliaGrid({
+  retiroId,
+  inscritos,
+  materiais,
+  reunioes,
+  presencasResp,
+}: VigíliaGridProps) {
   const matMap: Record<string, VigiliaMaterialState> = {}
   for (const m of materiais) {
     matMap[m.inscricao_id] = {
@@ -157,6 +218,12 @@ export function VigíliaGrid({ retiroId, inscritos, materiais }: VigíliaGridPro
       foto_atual: m.foto_atual,
       cartas_recebidas: m.cartas_recebidas,
     }
+  }
+
+  const presMap: Record<string, Record<string, boolean>> = {}
+  for (const p of presencasResp) {
+    if (!presMap[p.inscricao_id]) presMap[p.inscricao_id] = {}
+    presMap[p.inscricao_id][p.reuniao_id] = p.presente
   }
 
   const vazio: VigiliaMaterialState = {
@@ -175,29 +242,37 @@ export function VigíliaGrid({ retiroId, inscritos, materiais }: VigíliaGridPro
     )
   }
 
+  const minWidth = 680 + reunioes.length * 88
+
   return (
     <div className="bg-white rounded-xl border border-zinc-200 overflow-auto">
-      <table className="w-full text-sm min-w-[680px]">
+      <table className="w-full text-sm" style={{ minWidth: `${minWidth}px` }}>
         <thead>
           <tr className="border-b border-zinc-200 bg-zinc-50">
             <th className="text-left px-6 py-3 font-medium text-zinc-500 min-w-[180px]">Nome</th>
             <th className="text-left px-4 py-3 font-medium text-zinc-500 min-w-[140px]">Responsável</th>
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-24">
+            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-20">
               <span className="block text-xs">Foto</span>
               <span className="block text-xs text-zinc-400 font-normal">Criança</span>
             </th>
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-24">
+            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-20">
               <span className="block text-xs">Foto</span>
-              <span className="block text-xs text-zinc-400 font-normal">Adolescente</span>
+              <span className="block text-xs text-zinc-400 font-normal">Adolesc.</span>
             </th>
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-24">
+            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-20">
               <span className="block text-xs">Foto</span>
               <span className="block text-xs text-zinc-400 font-normal">Atual</span>
             </th>
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-32">
+            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-28">
               <span className="block text-xs">Cartas</span>
               <span className="block text-xs text-zinc-400 font-normal">mín. {CARTAS_MIN}</span>
             </th>
+            {reunioes.map((r) => (
+              <th key={r.id} className="px-4 py-3 font-medium text-zinc-500 text-center w-[88px]">
+                <span className="block text-xs">Resp. {r.numero}ª</span>
+                <span className="block text-xs text-zinc-400 font-normal">{formatData(r.data)}</span>
+              </th>
+            ))}
             <th className="px-4 py-3 font-medium text-zinc-500 text-center w-28">Situação</th>
             <th className="px-4 py-3 w-10" />
           </tr>
@@ -205,6 +280,7 @@ export function VigíliaGrid({ retiroId, inscritos, materiais }: VigíliaGridPro
         <tbody className="divide-y divide-zinc-100">
           {inscritos.map((inscricao) => {
             const mat = matMap[inscricao.id] ?? vazio
+            const respPreps = presMap[inscricao.id] ?? {}
             return (
               <tr key={inscricao.id} className="hover:bg-zinc-50 transition-colors">
                 <td className="px-6 py-3 font-medium text-zinc-900">
@@ -244,6 +320,16 @@ export function VigíliaGrid({ retiroId, inscritos, materiais }: VigíliaGridPro
                     inicial={mat.cartas_recebidas}
                   />
                 </td>
+                {reunioes.map((r) => (
+                  <td key={r.id} className="px-4 py-3 text-center">
+                    <RespCheck
+                      inscricaoId={inscricao.id}
+                      reuniaoId={r.id}
+                      retiroId={retiroId}
+                      checked={respPreps[r.id] ?? false}
+                    />
+                  </td>
+                ))}
                 <td className="px-4 py-3 text-center">
                   <StatusBadge mat={mat} />
                 </td>

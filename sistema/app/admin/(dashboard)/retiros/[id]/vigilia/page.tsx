@@ -5,7 +5,6 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getSessionRole } from '@/lib/auth-guard'
 import { nomeRetiro } from '@/lib/retiro-utils'
 import { VigíliaGrid } from '@/components/admin/vigilia-grid'
-import { PresencaResponsavelGrid } from '@/components/admin/presenca-responsavel-grid'
 import { BackButton } from '@/components/admin/back-button'
 import type { VigiliaMaterial, PresencaResponsavel } from '@/types/database'
 
@@ -121,35 +120,20 @@ export default async function VigíliaPage({
 
       {/* Legenda */}
       <p className="text-xs text-zinc-400 mb-4">
-        Marque os itens conforme os materiais forem entregues pelos responsáveis.
-        Mínimo: 3 fotos (criança, adolescente, atual) e 5 cartas.
+        Marque fotos e cartas conforme os materiais forem entregues. As colunas
+        <span className="font-medium text-zinc-500"> Resp. Nª</span> registram se o responsável compareceu
+        à preparatória — útil para identificar quem precisa de acompanhamento extra.
+        Mínimo: 3 fotos e 5 cartas.
       </p>
 
-      {/* Grid de Fotos + Cartas */}
+      {/* Grid unificado */}
       <VigíliaGrid
         retiroId={id}
         inscritos={inscritosList}
         materiais={materiais ?? []}
+        reunioes={reunioesList}
+        presencasResp={presencasResp ?? []}
       />
-
-      {/* Seção de Presença dos Responsáveis */}
-      <div className="mt-10">
-        <div className="flex items-center gap-3 mb-2">
-          <h2 className="text-base font-semibold text-zinc-900">
-            Presença nas Preparatórias
-          </h2>
-        </div>
-        <p className="text-xs text-zinc-400 mb-4">
-          Marque as preparatórias em que o responsável esteve presente.
-          Faltas identificadas aqui orientam o acompanhamento da vigília.
-        </p>
-        <PresencaResponsavelGrid
-          retiroId={id}
-          inscritos={inscritosList}
-          reunioes={reunioesList}
-          presencas={presencasResp ?? []}
-        />
-      </div>
     </div>
   )
 }

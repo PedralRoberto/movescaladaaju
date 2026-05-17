@@ -55,7 +55,7 @@ export default async function AdminLayout({
             ) : isVigilia ? (
               <NavLink
                 href="/admin/vigilia"
-                label="Fotos + Cartas"
+                label="Vigília"
                 icon={<Eye className="h-4 w-4 shrink-0" />}
               />
             ) : (

@@ -21,7 +21,7 @@ export default async function VigíliaPage({
     supabase.from('retiros').select('*').eq('id', id).single(),
     supabase
       .from('inscricoes')
-      .select('id, nome_completo')
+      .select('id, nome_completo, nome_responsavel')
       .eq('retiro_id', id)
       .neq('status', 'cancelado')
       .order('nome_completo'),
@@ -75,7 +75,7 @@ export default async function VigíliaPage({
           {nome}
         </Link>
         <span>/</span>
-        <span className="text-zinc-600 font-medium">Vigília</span>
+        <span className="text-zinc-600 font-medium">Fotos + Cartas</span>
       </div>
 
       {/* Header */}
@@ -84,7 +84,7 @@ export default async function VigíliaPage({
           <Eye className="h-5 w-5 text-teal-500" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Vigília</h1>
+          <h1 className="text-2xl font-bold text-zinc-900">Fotos + Cartas</h1>
           <p className="text-zinc-500 mt-0.5 text-sm">{nome}</p>
         </div>
       </div>

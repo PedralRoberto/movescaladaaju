@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, ExternalLink, Trash2 } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Trash2, Check, X } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/supabase/server'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { nomeRetiro } from '@/lib/retiro-utils'
@@ -22,7 +23,7 @@ import { StatusSelector } from '@/components/admin/status-selector'
 import { PagamentoForm } from '@/components/admin/pagamento-form'
 import { DesistenciaPanel } from '@/components/admin/desistencia-panel'
 import { deletarPagamento } from '@/app/admin/(dashboard)/retiros/[id]/pagamentos/actions'
-import type { ReuniaoPrevia, Pagamento } from '@/types/database'
+import type { ReuniaoPrevia, Pagamento, VigiliaMaterial } from '@/types/database'
 
 function formatarData(data: string | null): string {
   if (!data) return '—'
@@ -37,12 +38,17 @@ export default async function InscricaoDetalhePage({
   const { id, inscricaoId } = await params
   const supabase = createAdminClient()
 
+  const authClient = await createClient()
+  const { data: { user: currentUser } } = await authClient.auth.getUser()
+  const currentRole = currentUser?.app_metadata?.role as string | undefined
+
   const [
     { data: retiro, error: retiroError },
     { data: inscricao, error: inscricaoError },
     { data: reunioes },
     { data: presencas },
     { data: pagamentos },
+    { data: vigiliaMat },
   ] = await Promise.all([
     supabase.from('retiros').select('*').eq('id', id).single(),
     supabase.from('inscricoes').select('*').eq('id', inscricaoId).single(),
@@ -60,6 +66,11 @@ export default async function InscricaoDetalhePage({
       .select('*')
       .eq('inscricao_id', inscricaoId)
       .order('created_at', { ascending: false }),
+    supabase
+      .from('vigilia_materiais')
+      .select('*')
+      .eq('inscricao_id', inscricaoId)
+      .maybeSingle(),
   ])
 
   if (retiroError || !retiro || inscricaoError || !inscricao) {
@@ -297,6 +308,66 @@ export default async function InscricaoDetalhePage({
           )}
         </CardContent>
       </Card>
+
+      {/* Fotos + Cartas */}
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-base font-semibold text-zinc-900">Fotos + Cartas</h2>
+        <Link
+          href={`/admin/retiros/${id}/vigilia`}
+          className="text-xs font-medium text-teal-600 hover:text-teal-700 transition-colors"
+        >
+          Ver tabela completa →
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 gap-4 mb-10">
+        {/* Card Fotos */}
+        <Card>
+          <CardContent className="pt-5 pb-5">
+            <p className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-3">Fotos</p>
+            <div className="space-y-2">
+              {[
+                { label: 'Criança', ok: vigiliaMat?.foto_crianca ?? false },
+                { label: 'Adolescente', ok: vigiliaMat?.foto_adolescente ?? false },
+                { label: 'Atual', ok: vigiliaMat?.foto_atual ?? false },
+              ].map(({ label, ok }) => (
+                <div key={label} className="flex items-center justify-between">
+                  <span className="text-xs text-zinc-500">{label}</span>
+                  {ok
+                    ? <Check className="h-3.5 w-3.5 text-emerald-500" />
+                    : <X className="h-3.5 w-3.5 text-zinc-300" />}
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 pt-3 border-t border-zinc-100">
+              {(() => {
+                const total = [vigiliaMat?.foto_crianca, vigiliaMat?.foto_adolescente, vigiliaMat?.foto_atual].filter(Boolean).length
+                return total === 3
+                  ? <span className="text-xs font-medium text-emerald-600">Completo</span>
+                  : <span className="text-xs font-medium text-amber-600">{total}/3 fotos</span>
+              })()}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Card Cartas */}
+        <Card>
+          <CardContent className="pt-5 pb-5">
+            <p className="text-xs font-medium text-zinc-400 uppercase tracking-wide mb-3">Cartas</p>
+            <p className="text-3xl font-bold text-zinc-900 tabular-nums">
+              {vigiliaMat?.cartas_recebidas ?? 0}
+              <span className="text-base font-normal text-zinc-400"> / 5</span>
+            </p>
+            <div className="mt-3 pt-3 border-t border-zinc-100">
+              {(vigiliaMat?.cartas_recebidas ?? 0) >= 5
+                ? <span className="text-xs font-medium text-emerald-600">Completo</span>
+                : <span className="text-xs font-medium text-amber-600">
+                    {5 - (vigiliaMat?.cartas_recebidas ?? 0)} carta(s) pendente(s)
+                  </span>
+              }
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Pagamentos */}
       <h2 className="text-base font-semibold text-zinc-900 mb-3">Pagamentos</h2>

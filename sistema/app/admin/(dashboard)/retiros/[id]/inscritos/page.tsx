@@ -29,7 +29,7 @@ export default async function InscritosPage({
     supabase.from('retiros').select('*').eq('id', id).single(),
     supabase
       .from('inscricoes')
-      .select('*')
+      .select('id, retiro_id, nome_completo, telefone, nome_responsavel, modalidade_pagamento, status, created_at')
       .eq('retiro_id', id)
       .order('created_at', { ascending: false }),
   ])
@@ -142,7 +142,7 @@ export default async function InscritosPage({
                   Telefone
                 </th>
                 <th className="text-left px-6 py-3 font-medium text-zinc-500">
-                  Bairro
+                  Responsável
                 </th>
                 <th className="text-left px-6 py-3 font-medium text-zinc-500">
                   Modalidade
@@ -176,7 +176,7 @@ export default async function InscritosPage({
                     {inscricao.telefone}
                   </td>
                   <td className="px-6 py-4 text-zinc-600">
-                    {inscricao.bairro ?? '—'}
+                    {inscricao.nome_responsavel ?? '—'}
                   </td>
                   <td className="px-6 py-4">
                     <span

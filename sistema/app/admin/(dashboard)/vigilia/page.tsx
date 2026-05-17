@@ -31,7 +31,7 @@ export default async function VigíliaLandingPage() {
           <Eye className="h-5 w-5 text-teal-500" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Vigília</h1>
+          <h1 className="text-2xl font-bold text-zinc-900">Fotos + Cartas</h1>
           <p className="text-zinc-500 mt-0.5 text-sm">
             Controle de fotos e cartas por retiro
           </p>

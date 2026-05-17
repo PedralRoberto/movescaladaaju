@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, Users, ClipboardList, CreditCard, Download, Eye } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
@@ -82,6 +83,11 @@ export default async function RetiroDetalhePage({
 }) {
   const { id } = await params
   const supabase = createAdminClient()
+
+  const authClient = await createClient()
+  const { data: { user: currentUser } } = await authClient.auth.getUser()
+  const currentRole = currentUser?.app_metadata?.role as string | undefined
+  const isVigilia = currentRole === 'secretaria_vigilia'
 
   const [
     { data: retiro, error: retiroError },
@@ -251,8 +257,8 @@ export default async function RetiroDetalhePage({
         <h2 className="text-base font-semibold text-zinc-900 mb-3">
           Módulos
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {/* Card de Inscritos — ativo */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Card de Inscritos */}
           <Link href={`/admin/retiros/${id}/inscritos`} className="block">
             <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
               <CardContent className="p-5">
@@ -261,9 +267,7 @@ export default async function RetiroDetalhePage({
                     <Users className="h-5 w-5 text-teal-500" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-zinc-900">
-                      Inscritos
-                    </p>
+                    <p className="text-sm font-medium text-zinc-900">Inscritos</p>
                     <p className="text-xs text-zinc-400 mt-0.5">
                       {totalInscritos ?? 0} inscrito(s)
                     </p>
@@ -273,49 +277,7 @@ export default async function RetiroDetalhePage({
             </Card>
           </Link>
 
-          {/* Card de Preparatórias — ativo */}
-          <Link href={`/admin/retiros/${id}/chamada`} className="block">
-            <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
-              <CardContent className="p-5">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                    <ClipboardList className="h-5 w-5 text-teal-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-zinc-900">
-                      Preparatórias
-                    </p>
-                    <p className="text-xs text-zinc-400 mt-0.5">
-                      {totalReunioes ?? 0}/4 preparatória(s)
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-
-          {/* Card de Pagamentos — ativo */}
-          <Link href={`/admin/retiros/${id}/pagamentos`} className="block">
-            <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
-              <CardContent className="p-5">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                    <CreditCard className="h-5 w-5 text-teal-500" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-zinc-900">
-                      Pagamentos
-                    </p>
-                    <p className="text-xs text-zinc-400 mt-0.5">
-                      Controle financeiro
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-
-          {/* Card de Vigília */}
+          {/* Card de Fotos + Cartas (Vigília) */}
           <Link href={`/admin/retiros/${id}/vigilia`} className="block">
             <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
               <CardContent className="p-5">
@@ -324,17 +286,53 @@ export default async function RetiroDetalhePage({
                     <Eye className="h-5 w-5 text-teal-500" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-zinc-900">
-                      Vigília
-                    </p>
-                    <p className="text-xs text-zinc-400 mt-0.5">
-                      Fotos e cartas
-                    </p>
+                    <p className="text-sm font-medium text-zinc-900">Fotos + Cartas</p>
+                    <p className="text-xs text-zinc-400 mt-0.5">Controle da vigília</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
           </Link>
+
+          {/* Card de Preparatórias — oculto para secretaria_vigilia */}
+          {!isVigilia && (
+            <Link href={`/admin/retiros/${id}/chamada`} className="block">
+              <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
+                      <ClipboardList className="h-5 w-5 text-teal-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-zinc-900">Preparatórias</p>
+                      <p className="text-xs text-zinc-400 mt-0.5">
+                        {totalReunioes ?? 0}/4 preparatória(s)
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          )}
+
+          {/* Card de Pagamentos — oculto para secretaria_vigilia */}
+          {!isVigilia && (
+            <Link href={`/admin/retiros/${id}/pagamentos`} className="block">
+              <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
+                      <CreditCard className="h-5 w-5 text-teal-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-zinc-900">Pagamentos</p>
+                      <p className="text-xs text-zinc-400 mt-0.5">Controle financeiro</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          )}
         </div>
       </div>
 

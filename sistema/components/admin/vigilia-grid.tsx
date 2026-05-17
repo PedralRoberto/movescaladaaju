@@ -16,6 +16,7 @@ type FotoTipo = 'foto_crianca' | 'foto_adolescente' | 'foto_atual'
 interface InscritoRow {
   id: string
   nome_completo: string
+  nome_responsavel: string | null
 }
 
 interface VigiliaMaterialState {
@@ -179,7 +180,8 @@ export function VigíliaGrid({ retiroId, inscritos, materiais }: VigíliaGridPro
       <table className="w-full text-sm min-w-[680px]">
         <thead>
           <tr className="border-b border-zinc-200 bg-zinc-50">
-            <th className="text-left px-6 py-3 font-medium text-zinc-500 min-w-[200px]">Nome</th>
+            <th className="text-left px-6 py-3 font-medium text-zinc-500 min-w-[180px]">Nome</th>
+            <th className="text-left px-4 py-3 font-medium text-zinc-500 min-w-[140px]">Responsável</th>
             <th className="px-4 py-3 font-medium text-zinc-500 text-center w-24">
               <span className="block text-xs">Foto</span>
               <span className="block text-xs text-zinc-400 font-normal">Criança</span>
@@ -207,6 +209,9 @@ export function VigíliaGrid({ retiroId, inscritos, materiais }: VigíliaGridPro
               <tr key={inscricao.id} className="hover:bg-zinc-50 transition-colors">
                 <td className="px-6 py-3 font-medium text-zinc-900">
                   {inscricao.nome_completo}
+                </td>
+                <td className="px-4 py-3 text-sm text-zinc-500">
+                  {inscricao.nome_responsavel ?? '—'}
                 </td>
                 <td className="px-4 py-3 text-center">
                   <FotoCheck

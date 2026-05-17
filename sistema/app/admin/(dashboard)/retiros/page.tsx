@@ -90,8 +90,13 @@ export default async function RetirosPage() {
                   key={retiro.id}
                   className="hover:bg-zinc-50 transition-colors"
                 >
-                  <td className="px-6 py-4 font-medium text-zinc-900">
-                    {nomeRetiro(retiro)}
+                  <td className="px-6 py-4 font-medium">
+                    <Link
+                      href={`/admin/retiros/${retiro.id}`}
+                      className="text-zinc-900 hover:text-teal-600 transition-colors"
+                    >
+                      {nomeRetiro(retiro)}
+                    </Link>
                   </td>
                   <td className="px-6 py-4 text-zinc-600">{retiro.ano}</td>
                   <td className="px-6 py-4 text-zinc-600">{retiro.vagas}</td>

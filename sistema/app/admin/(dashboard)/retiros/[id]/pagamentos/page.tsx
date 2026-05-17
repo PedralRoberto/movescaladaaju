@@ -197,8 +197,13 @@ export default async function PagamentosPage({
                     key={inscricao.id}
                     className="hover:bg-zinc-50 transition-colors"
                   >
-                    <td className="px-6 py-4 font-medium text-zinc-900">
-                      {inscricao.nome_completo}
+                    <td className="px-6 py-4 font-medium">
+                      <Link
+                        href={`/admin/retiros/${id}/inscritos/${inscricao.id}`}
+                        className="text-zinc-900 hover:text-teal-600 transition-colors"
+                      >
+                        {inscricao.nome_completo}
+                      </Link>
                     </td>
                     <td className="px-6 py-4">
                       <span

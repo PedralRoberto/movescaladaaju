@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useRouter } from 'next/navigation'
 import { LogOut } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
@@ -34,9 +35,9 @@ export function LogoutConfirmModal({
 }) {
   if (!open) return null
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40"
       onClick={(e) => e.target === e.currentTarget && onCancel()}
     >
       <div className="w-full max-w-xs bg-white rounded-2xl shadow-xl border border-zinc-200 overflow-hidden">
@@ -64,6 +65,7 @@ export function LogoutConfirmModal({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }

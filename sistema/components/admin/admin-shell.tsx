@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Menu, X, PanelLeft, PanelLeftClose } from 'lucide-react'
 
 export function AdminShell({
   sidebarContent,
@@ -46,11 +46,15 @@ export function AdminShell({
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col p-3 transition-transform duration-200 sm:static sm:shrink-0 sm:self-start ${
-          mobileOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col p-3 transition-transform duration-200 sm:static sm:shrink-0${
+          collapsed ? ' sm:self-start' : ''
+        } ${mobileOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'}`}
       >
-        <div className="relative flex flex-col w-56 bg-white rounded-2xl shadow-md border border-zinc-200/60 overflow-hidden h-full sm:h-auto">
+        <div
+          className={`relative flex flex-col w-56 bg-white rounded-2xl shadow-md border border-zinc-200/60 overflow-hidden ${
+            collapsed ? '' : 'flex-1'
+          }`}
+        >
           {/* Cabeçalho — sempre visível */}
           <div className="flex items-center gap-2 px-4 pt-5 pb-4">
             <img
@@ -77,20 +81,35 @@ export function AdminShell({
               aria-label={collapsed ? 'Expandir menu' : 'Recolher menu'}
             >
               {collapsed ? (
-                <ChevronRight className="h-4 w-4" />
+                <PanelLeft className="h-4 w-4" />
               ) : (
-                <ChevronLeft className="h-4 w-4" />
+                <PanelLeftClose className="h-4 w-4" />
               )}
             </button>
           </div>
 
-          {/* Nav + rodapé — ocultos quando recolhido */}
-          {!collapsed && (
-            <>
-              <div className="h-px bg-zinc-200 mx-4" />
-              {sidebarContent}
-            </>
-          )}
+          {/* Nav + rodapé — animados com CSS grid trick */}
+          <div
+            className="flex-1"
+            style={{
+              display: 'grid',
+              gridTemplateRows: collapsed ? '0fr' : '1fr',
+              transition: 'grid-template-rows 380ms ease',
+            }}
+          >
+            <div className="overflow-hidden flex flex-col">
+              <div
+                className="flex flex-col flex-1"
+                style={{
+                  opacity: collapsed ? 0 : 1,
+                  transition: 'opacity 260ms ease',
+                }}
+              >
+                <div className="h-px bg-zinc-200 mx-4" />
+                {sidebarContent}
+              </div>
+            </div>
+          </div>
         </div>
       </aside>
 

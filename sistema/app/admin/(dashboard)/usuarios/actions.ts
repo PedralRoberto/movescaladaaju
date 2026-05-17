@@ -59,6 +59,39 @@ export async function criarUsuario(
   }
 }
 
+export async function editarUsuario(
+  _prev: { error?: string } | null,
+  formData: FormData
+): Promise<{ error?: string }> {
+  try {
+    await assertAdmin()
+
+    const userId = (formData.get('userId') as string)?.trim()
+    const apelido = (formData.get('apelido') as string)?.trim()
+    const password = (formData.get('password') as string)?.trim()
+
+    if (!userId || !apelido) {
+      return { error: 'Apelido é obrigatório.' }
+    }
+    if (password && password.length < 8) {
+      return { error: 'A nova senha deve ter pelo menos 8 caracteres.' }
+    }
+
+    const admin = createAdminClient()
+    const { error } = await admin.auth.admin.updateUserById(userId, {
+      user_metadata: { apelido },
+      ...(password ? { password } : {}),
+    })
+
+    if (error) return { error: 'Erro ao atualizar usuário.' }
+
+    revalidatePath('/admin/usuarios')
+    return {}
+  } catch {
+    return { error: 'Acesso negado.' }
+  }
+}
+
 export async function deletarUsuario(userId: string): Promise<{ error?: string }> {
   try {
     const currentUser = await assertAdmin()

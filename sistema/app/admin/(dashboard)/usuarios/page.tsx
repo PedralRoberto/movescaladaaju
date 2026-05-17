@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CriarUsuarioForm } from '@/components/admin/criar-usuario-form'
 import { DeletarUsuarioButton } from '@/components/admin/deletar-usuario-button'
+import { EditarUsuarioForm } from '@/components/admin/editar-usuario-form'
 import { Users } from 'lucide-react'
 
 export default async function UsuariosPage() {
@@ -52,13 +53,16 @@ export default async function UsuariosPage() {
                   E-mail
                 </th>
                 <th className="text-left px-6 py-3 font-medium text-zinc-500">
+                  Apelido
+                </th>
+                <th className="text-left px-6 py-3 font-medium text-zinc-500">
                   Cargo
                 </th>
                 <th className="text-left px-6 py-3 font-medium text-zinc-500">
                   Criado em
                 </th>
                 <th className="text-right px-6 py-3 font-medium text-zinc-500">
-                  Ação
+                  Ações
                 </th>
               </tr>
             </thead>
@@ -68,18 +72,30 @@ export default async function UsuariosPage() {
                   <td className="px-6 py-4 font-medium text-zinc-900">
                     {u.email ?? '—'}
                   </td>
+                  <td className="px-6 py-4 text-zinc-600">
+                    {u.user_metadata?.apelido ?? (
+                      <span className="text-zinc-300">—</span>
+                    )}
+                  </td>
                   <td className="px-6 py-4">
                     <RoleBadge role={u.app_metadata?.role} />
                   </td>
                   <td className="px-6 py-4 text-zinc-600">
                     {new Date(u.created_at).toLocaleDateString('pt-BR')}
                   </td>
-                  <td className="px-6 py-4 text-right">
-                    {u.id !== user.id ? (
-                      <DeletarUsuarioButton userId={u.id} email={u.email ?? ''} />
-                    ) : (
-                      <span className="text-xs text-zinc-400">Você</span>
-                    )}
+                  <td className="px-6 py-4">
+                    <div className="flex items-center justify-end gap-1">
+                      <EditarUsuarioForm
+                        userId={u.id}
+                        email={u.email ?? ''}
+                        apelido={u.user_metadata?.apelido}
+                      />
+                      {u.id !== user.id ? (
+                        <DeletarUsuarioButton userId={u.id} email={u.email ?? ''} />
+                      ) : (
+                        <span className="text-xs text-zinc-400 px-2">Você</span>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -86,6 +86,18 @@ export interface Presenca {
   registrado_em: string
 }
 
+export interface VigiliaMaterial {
+  id: string
+  inscricao_id: string
+  foto_crianca: boolean
+  foto_adolescente: boolean
+  foto_atual: boolean
+  cartas_recebidas: number
+  observacoes: string | null
+  updated_at: string
+  created_at: string
+}
+
 export interface Pagamento {
   id: string
   inscricao_id: string

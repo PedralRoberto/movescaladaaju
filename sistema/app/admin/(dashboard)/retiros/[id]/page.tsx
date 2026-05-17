@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Users, ClipboardList, CreditCard, Download } from 'lucide-react'
+import { ArrowLeft, Users, ClipboardList, CreditCard, Download, Eye } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
@@ -251,7 +251,7 @@ export default async function RetiroDetalhePage({
         <h2 className="text-base font-semibold text-zinc-900 mb-3">
           Módulos
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {/* Card de Inscritos — ativo */}
           <Link href={`/admin/retiros/${id}/inscritos`} className="block">
             <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
@@ -308,6 +308,27 @@ export default async function RetiroDetalhePage({
                     </p>
                     <p className="text-xs text-zinc-400 mt-0.5">
                       Controle financeiro
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
+          {/* Card de Vigília */}
+          <Link href={`/admin/retiros/${id}/vigilia`} className="block">
+            <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
+              <CardContent className="p-5">
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
+                    <Eye className="h-5 w-5 text-teal-500" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-zinc-900">
+                      Vigília
+                    </p>
+                    <p className="text-xs text-zinc-400 mt-0.5">
+                      Fotos e cartas
                     </p>
                   </div>
                 </div>

@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { LayoutDashboard, CalendarDays, Users, MessageCircle } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, Users, MessageCircle, Eye } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { NavLink } from '@/components/admin/nav-link'
 import { SidebarLogout } from '@/components/admin/sidebar-logout'
@@ -22,6 +22,7 @@ export default async function AdminLayout({
   const role = user.app_metadata?.role as string | undefined
   const isAdmin = role === 'admin'
   const isPreparatoria = role === 'coordenador_preparatoria'
+  const isVigilia = role === 'secretaria_vigilia'
 
   return (
     <AdminShell
@@ -50,6 +51,12 @@ export default async function AdminLayout({
                 href="/admin/preparatoria"
                 label="Inscritos"
                 icon={<MessageCircle className="h-4 w-4 shrink-0" />}
+              />
+            ) : isVigilia ? (
+              <NavLink
+                href="/admin/vigilia"
+                label="Vigília"
+                icon={<Eye className="h-4 w-4 shrink-0" />}
               />
             ) : (
               <>

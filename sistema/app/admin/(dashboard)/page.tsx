@@ -147,8 +147,13 @@ export default async function AdminDashboard() {
               <tbody className="divide-y divide-zinc-100">
                 {retiros.map((r) => (
                   <tr key={r.id} className="hover:bg-zinc-50 transition-colors">
-                    <td className="px-4 sm:px-6 py-4 font-medium text-zinc-900">
-                      {nomeRetiro(r)}
+                    <td className="px-4 sm:px-6 py-4 font-medium">
+                      <Link
+                        href={`/admin/retiros/${r.id}`}
+                        className="text-zinc-900 hover:text-teal-600 transition-colors"
+                      >
+                        {nomeRetiro(r)}
+                      </Link>
                     </td>
                     <td className="px-4 sm:px-6 py-4">
                       <span

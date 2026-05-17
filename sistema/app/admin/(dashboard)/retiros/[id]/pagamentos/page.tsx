@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, CreditCard } from 'lucide-react'
+import { CreditCard } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Card, CardContent } from '@/components/ui/card'
 import { buttonVariants } from '@/components/ui/button'
@@ -15,6 +15,7 @@ import {
 } from '@/lib/pagamento-utils'
 import type { Pagamento } from '@/types/database'
 import { salvarChavePix } from './actions'
+import { BackButton } from '@/components/admin/back-button'
 
 type InscritoComPagamentos = {
   id: string
@@ -82,11 +83,8 @@ export default async function PagamentosPage({
     <div className="p-4 sm:p-8 max-w-6xl mx-auto">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-zinc-400 mb-6">
-        <Link
-          href="/admin/retiros"
-          className="hover:text-zinc-600 flex items-center gap-1"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
+        <BackButton />
+        <Link href="/admin/retiros" className="hover:text-zinc-600">
           Retiros
         </Link>
         <span>/</span>

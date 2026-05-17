@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Users, ClipboardList, CreditCard, Download, Eye } from 'lucide-react'
+import { Users, ClipboardList, CreditCard, Download, Eye } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator'
 import { nomeRetiro, statusLabel, statusColor, slugRetiro } from '@/lib/retiro-utils'
 import { updateRetiroStatus } from './actions'
 import { ArquivarInscritos } from '@/components/admin/arquivar-inscritos'
+import { BackButton } from '@/components/admin/back-button'
 import { CopiarLink } from '@/components/admin/copiar-link'
 import type { RetiroStatus } from '@/types/database'
 
@@ -122,11 +123,8 @@ export default async function RetiroDetalhePage({
     <div className="p-4 sm:p-8 max-w-5xl mx-auto">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-zinc-400 mb-6">
-        <Link
-          href="/admin/retiros"
-          className="hover:text-zinc-600 flex items-center gap-1"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
+        <BackButton />
+        <Link href="/admin/retiros" className="hover:text-zinc-600">
           Retiros
         </Link>
         <span>/</span>

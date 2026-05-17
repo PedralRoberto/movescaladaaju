@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, ExternalLink, Trash2, Check, X } from 'lucide-react'
+import { ExternalLink, Trash2, Check, X } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import { BackButton } from '@/components/admin/back-button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { nomeRetiro } from '@/lib/retiro-utils'
@@ -115,11 +116,8 @@ export default async function InscricaoDetalhePage({
     <div className="p-4 sm:p-8 max-w-5xl mx-auto">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-zinc-400 mb-6 flex-wrap">
-        <Link
-          href="/admin/retiros"
-          className="hover:text-zinc-600 flex items-center gap-1"
-        >
-          <ArrowLeft className="h-3.5 w-3.5" />
+        <BackButton />
+        <Link href="/admin/retiros" className="hover:text-zinc-600">
           Retiros
         </Link>
         <span>/</span>

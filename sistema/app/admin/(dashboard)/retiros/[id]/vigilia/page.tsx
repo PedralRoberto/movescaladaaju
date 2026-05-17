@@ -1,9 +1,10 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, Eye } from 'lucide-react'
+import { Eye } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { nomeRetiro } from '@/lib/retiro-utils'
 import { VigíliaGrid } from '@/components/admin/vigilia-grid'
+import { BackButton } from '@/components/admin/back-button'
 import type { VigiliaMaterial } from '@/types/database'
 
 export default async function VigíliaPage({
@@ -66,10 +67,8 @@ export default async function VigíliaPage({
     <div className="p-4 sm:p-8 max-w-6xl mx-auto">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-zinc-400 mb-6">
-        <Link href="/admin/retiros" className="hover:text-zinc-600 flex items-center gap-1">
-          <ArrowLeft className="h-3.5 w-3.5" />
-          Retiros
-        </Link>
+        <BackButton />
+        <Link href="/admin/retiros" className="hover:text-zinc-600">Retiros</Link>
         <span>/</span>
         <Link href={`/admin/retiros/${id}`} className="hover:text-zinc-600 truncate max-w-xs">
           {nome}

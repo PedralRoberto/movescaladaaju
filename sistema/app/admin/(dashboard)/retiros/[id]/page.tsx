@@ -11,6 +11,7 @@ import { updateRetiroStatus } from './actions'
 import { ArquivarInscritos } from '@/components/admin/arquivar-inscritos'
 import { BackButton } from '@/components/admin/back-button'
 import { CopiarLink } from '@/components/admin/copiar-link'
+import { BackupButtons } from '@/components/admin/backup-buttons'
 import type { RetiroStatus } from '@/types/database'
 
 
@@ -88,6 +89,7 @@ export default async function RetiroDetalhePage({
   const authClient = await createClient()
   const { data: { user: currentUser } } = await authClient.auth.getUser()
   const currentRole = currentUser?.app_metadata?.role as string | undefined
+  const isAdmin = currentRole === 'admin'
   const isVigilia = currentRole === 'secretaria_vigilia'
   const isEncontro = currentRole === 'secretaria_encontro'
 
@@ -147,7 +149,7 @@ export default async function RetiroDetalhePage({
           </div>
         </div>
         {!isEncontro && (
-          <div className="flex items-center gap-2 sm:shrink-0">
+          <div className="flex flex-wrap items-center gap-2 sm:shrink-0">
             <a
               href={`/api/retiros/${retiro.id}/export`}
               className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-700 border border-zinc-200 hover:border-zinc-300 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
@@ -155,6 +157,7 @@ export default async function RetiroDetalhePage({
               <Download className="h-3.5 w-3.5" />
               Exportar Excel
             </a>
+            <BackupButtons retiroId={retiro.id} isAdmin={isAdmin} />
             <BotaoStatus id={retiro.id} status={retiro.status} />
           </div>
         )}

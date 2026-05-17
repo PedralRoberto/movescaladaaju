@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 import { Menu, X, PanelLeft, PanelLeftClose } from 'lucide-react'
 
 export function AdminShell({
@@ -57,13 +58,16 @@ export function AdminShell({
         >
           {/* Cabeçalho — sempre visível */}
           <div className="flex items-center gap-2 px-4 pt-5 pb-4">
-            <img
-              src="/escalada-icon.svg"
-              alt=""
-              aria-hidden="true"
-              className="w-8 h-8 shrink-0"
-            />
-            <span className="flex-1 text-sm font-bold text-teal-600">Escalada Aju</span>
+            <Link href="/admin" className="flex items-center gap-2 flex-1 min-w-0 group">
+              <img
+                src="/escalada-icon.svg"
+                alt="Ir para o dashboard"
+                className="w-8 h-8 shrink-0 group-hover:opacity-80 transition-opacity"
+              />
+              <span className="text-sm font-bold text-teal-600 group-hover:text-teal-700 transition-colors">
+                Escalada Aju
+              </span>
+            </Link>
 
             {/* Fechar — mobile */}
             <button

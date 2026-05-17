@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { assertNaoEncontro } from '@/lib/auth-guard'
 
 type FotoTipo = 'foto_crianca' | 'foto_adolescente' | 'foto_atual'
 
@@ -11,6 +12,8 @@ export async function toggleFotoVigilia(
   campo: FotoTipo,
   valor: boolean
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const { error } = await supabase
@@ -38,6 +41,8 @@ export async function atualizarCartasVigilia(
   retiroId: string,
   quantidade: number
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const qtd = Math.max(0, Math.round(quantidade))

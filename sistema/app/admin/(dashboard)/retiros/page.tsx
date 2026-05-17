@@ -1,12 +1,15 @@
 import Link from 'next/link'
 import { Plus, CalendarDays } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getSessionRole } from '@/lib/auth-guard'
 import { buttonVariants } from '@/components/ui/button'
 import { nomeRetiro, statusLabel, statusColor } from '@/lib/retiro-utils'
 import { cn } from '@/lib/utils'
 
 export default async function RetirosPage() {
   const supabase = createAdminClient()
+  const role = await getSessionRole()
+  const podeEditar = role !== 'secretaria_encontro'
 
   const { data: retiros, error } = await supabase
     .from('retiros')
@@ -32,13 +35,15 @@ export default async function RetirosPage() {
             Gerencie os retiros do Movimento Escalada Aju
           </p>
         </div>
-        <Link
-          href="/admin/retiros/novo"
-          className={cn(buttonVariants({ size: 'lg' }))}
-        >
-          <Plus className="h-4 w-4 mr-1.5" />
-          Novo retiro
-        </Link>
+        {podeEditar && (
+          <Link
+            href="/admin/retiros/novo"
+            className={cn(buttonVariants({ size: 'lg' }))}
+          >
+            <Plus className="h-4 w-4 mr-1.5" />
+            Novo retiro
+          </Link>
+        )}
       </div>
 
       {/* Empty state */}
@@ -53,13 +58,15 @@ export default async function RetirosPage() {
           <p className="text-zinc-500 text-sm mb-6">
             Crie o primeiro retiro para começar a gestão.
           </p>
-          <Link
-            href="/admin/retiros/novo"
-            className={cn(buttonVariants({ size: 'lg' }))}
-          >
-            <Plus className="h-4 w-4 mr-1.5" />
-            Criar primeiro retiro
-          </Link>
+          {podeEditar && (
+            <Link
+              href="/admin/retiros/novo"
+              className={cn(buttonVariants({ size: 'lg' }))}
+            >
+              <Plus className="h-4 w-4 mr-1.5" />
+              Criar primeiro retiro
+            </Link>
+          )}
         </div>
       ) : (
         /* Tabela */

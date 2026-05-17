@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import * as XLSX from 'xlsx'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getSessionRole } from '@/lib/auth-guard'
 import { nomeRetiro } from '@/lib/retiro-utils'
 import {
   inscricaoStatusLabel,
@@ -35,6 +36,10 @@ export async function GET(
   } = await authClient.auth.getUser()
   if (!user) {
     return new NextResponse('Não autorizado', { status: 401 })
+  }
+
+  if ((await getSessionRole()) === 'secretaria_encontro') {
+    return new NextResponse('Sem permissão.', { status: 403 })
   }
 
   const supabase = createAdminClient()
@@ -99,11 +104,11 @@ export async function GET(
     'Data de Nascimento',
     'Modalidade',
     'Status',
-    'R1',
-    'R2',
-    'R3',
-    'R4',
-    'Reuniões',
+    'Prep1',
+    'Prep2',
+    'Prep3',
+    'Prep4',
+    'Preparatórias',
     'Situação Chamada',
     'Exceção Chamada',
     'Pago (R$)',

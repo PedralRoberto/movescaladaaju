@@ -2,12 +2,14 @@
 
 import { revalidatePath } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { assertNaoEncontro } from '@/lib/auth-guard'
 import type { RetiroStatus } from '@/types/database'
 
 export async function updateRetiroStatus(
   id: string,
   status: RetiroStatus
 ): Promise<void> {
+  if ((await assertNaoEncontro()).error) return
   const supabase = createAdminClient()
 
   const { error } = await supabase
@@ -26,6 +28,8 @@ export async function updateRetiroStatus(
 export async function arquivarInscritos(
   retiroId: string
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const { data: retiro } = await supabase

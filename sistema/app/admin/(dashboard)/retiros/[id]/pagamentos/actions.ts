@@ -2,12 +2,15 @@
 
 import { revalidatePath } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { assertNaoEncontro } from '@/lib/auth-guard'
 
 export async function registrarPagamento(
   inscricaoId: string,
   retiroId: string,
   formData: FormData
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const tipo = (formData.get('tipo') as string)?.trim()
@@ -78,6 +81,7 @@ export async function salvarChavePix(
   retiroId: string,
   formData: FormData
 ): Promise<void> {
+  if ((await assertNaoEncontro()).error) return
   const supabase = createAdminClient()
   const chave_pix = (formData.get('chave_pix') as string)?.trim() || null
   await supabase.from('retiros').update({ chave_pix }).eq('id', retiroId)
@@ -90,6 +94,7 @@ export async function deletarPagamento(
   retiroId: string,
   comprovanteUrl: string | null
 ): Promise<void> {
+  if ((await assertNaoEncontro()).error) return
   const supabase = createAdminClient()
 
   if (comprovanteUrl) {

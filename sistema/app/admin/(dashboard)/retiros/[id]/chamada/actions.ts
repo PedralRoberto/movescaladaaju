@@ -2,12 +2,15 @@
 
 import { revalidatePath } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { assertNaoEncontro } from '@/lib/auth-guard'
 
 export async function salvarReuniao(
   retiroId: string,
   numero: number,
   formData: FormData
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const data = (formData.get('data') as string)?.trim()
@@ -42,6 +45,8 @@ export async function togglePresenca(
   presente: boolean,
   retiroId: string
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const { error } = await supabase
@@ -69,6 +74,8 @@ export async function toggleExcecaoChamada(
   excecao: boolean,
   retiroId: string
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const { error } = await supabase

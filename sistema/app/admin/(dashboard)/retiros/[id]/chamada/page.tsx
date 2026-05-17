@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { ClipboardList } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getSessionRole } from '@/lib/auth-guard'
 import { nomeRetiro } from '@/lib/retiro-utils'
 import { ReuniaoSlots } from '@/components/admin/reuniao-slots'
 import { ChamadaGrid } from '@/components/admin/chamada-grid'
@@ -14,6 +15,7 @@ export default async function ChamadaPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  if ((await getSessionRole()) === 'secretaria_encontro') redirect(`/admin/retiros/${id}`)
   const supabase = createAdminClient()
 
   const [

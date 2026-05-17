@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { assertNaoEncontro } from '@/lib/auth-guard'
 import type { InscricaoStatus } from '@/types/database'
 
 export async function updateInscricaoStatus(
@@ -9,6 +10,8 @@ export async function updateInscricaoStatus(
   retiroId: string,
   status: InscricaoStatus
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const { error } = await supabase
@@ -35,6 +38,8 @@ export async function registrarDesistencia(
   inscricaoId: string,
   retiroId: string
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const { error } = await supabase
@@ -66,6 +71,8 @@ export async function toggleReembolsado(
   retiroId: string,
   reembolsado: boolean
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const { error } = await supabase

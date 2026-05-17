@@ -89,6 +89,7 @@ export default async function RetiroDetalhePage({
   const { data: { user: currentUser } } = await authClient.auth.getUser()
   const currentRole = currentUser?.app_metadata?.role as string | undefined
   const isVigilia = currentRole === 'secretaria_vigilia'
+  const isEncontro = currentRole === 'secretaria_encontro'
 
   const [
     { data: retiro, error: retiroError },
@@ -145,16 +146,18 @@ export default async function RetiroDetalhePage({
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-2 sm:shrink-0">
-          <a
-            href={`/api/retiros/${retiro.id}/export`}
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-700 border border-zinc-200 hover:border-zinc-300 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
-          >
-            <Download className="h-3.5 w-3.5" />
-            Exportar Excel
-          </a>
-          <BotaoStatus id={retiro.id} status={retiro.status} />
-        </div>
+        {!isEncontro && (
+          <div className="flex items-center gap-2 sm:shrink-0">
+            <a
+              href={`/api/retiros/${retiro.id}/export`}
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-zinc-700 border border-zinc-200 hover:border-zinc-300 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap"
+            >
+              <Download className="h-3.5 w-3.5" />
+              Exportar Excel
+            </a>
+            <BotaoStatus id={retiro.id} status={retiro.status} />
+          </div>
+        )}
       </div>
 
       <Separator className="mb-8" />
@@ -275,25 +278,27 @@ export default async function RetiroDetalhePage({
             </Card>
           </Link>
 
-          {/* Card de Fotos + Cartas (Vigília) */}
-          <Link href={`/admin/retiros/${id}/vigilia`} className="block">
-            <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
-              <CardContent className="p-5">
-                <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
-                    <Eye className="h-5 w-5 text-teal-500" />
+          {/* Card de Fotos + Cartas — oculto para secretaria_encontro */}
+          {!isEncontro && (
+            <Link href={`/admin/retiros/${id}/vigilia`} className="block">
+              <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
+                <CardContent className="p-5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-teal-50 flex items-center justify-center shrink-0">
+                      <Eye className="h-5 w-5 text-teal-500" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-zinc-900">Fotos + Cartas</p>
+                      <p className="text-xs text-zinc-400 mt-0.5">Controle da vigília</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-zinc-900">Fotos + Cartas</p>
-                    <p className="text-xs text-zinc-400 mt-0.5">Controle da vigília</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+                </CardContent>
+              </Card>
+            </Link>
+          )}
 
-          {/* Card de Preparatórias — oculto para secretaria_vigilia */}
-          {!isVigilia && (
+          {/* Card de Preparatórias — oculto para secretaria_vigilia e secretaria_encontro */}
+          {!isVigilia && !isEncontro && (
             <Link href={`/admin/retiros/${id}/chamada`} className="block">
               <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
                 <CardContent className="p-5">
@@ -313,8 +318,8 @@ export default async function RetiroDetalhePage({
             </Link>
           )}
 
-          {/* Card de Pagamentos — oculto para secretaria_vigilia */}
-          {!isVigilia && (
+          {/* Card de Pagamentos — oculto para secretaria_vigilia e secretaria_encontro */}
+          {!isVigilia && !isEncontro && (
             <Link href={`/admin/retiros/${id}/pagamentos`} className="block">
               <Card className="hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer">
                 <CardContent className="p-5">
@@ -334,8 +339,8 @@ export default async function RetiroDetalhePage({
         </div>
       </div>
 
-      {/* Pós-retiro — só visível quando realizado */}
-      {retiro.status === 'realizado' && (
+      {/* Pós-retiro — só visível quando realizado e não é secretaria_encontro */}
+      {retiro.status === 'realizado' && !isEncontro && (
         <div className="mt-10">
           <Separator className="mb-8" />
           <h2 className="text-base font-semibold text-zinc-900 mb-1">

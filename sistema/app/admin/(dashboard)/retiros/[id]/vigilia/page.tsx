@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Eye } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getSessionRole } from '@/lib/auth-guard'
 import { nomeRetiro } from '@/lib/retiro-utils'
 import { VigíliaGrid } from '@/components/admin/vigilia-grid'
 import { BackButton } from '@/components/admin/back-button'
@@ -13,6 +14,7 @@ export default async function VigíliaPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  if ((await getSessionRole()) === 'secretaria_encontro') redirect(`/admin/retiros/${id}`)
   const supabase = createAdminClient()
 
   const [

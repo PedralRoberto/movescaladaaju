@@ -42,6 +42,7 @@ export default async function InscricaoDetalhePage({
   const authClient = await createClient()
   const { data: { user: currentUser } } = await authClient.auth.getUser()
   const currentRole = currentUser?.app_metadata?.role as string | undefined
+  const isEncontro = currentRole === 'secretaria_encontro'
 
   const [
     { data: retiro, error: retiroError },
@@ -154,23 +155,25 @@ export default async function InscricaoDetalhePage({
         </div>
       </div>
 
-      {/* Selector de status + Desistência */}
-      <div className="flex flex-col gap-4 mb-8">
-        {inscricao.status !== 'cancelado' && (
-          <StatusSelector
+      {/* Selector de status + Desistência — oculto para secretaria_encontro */}
+      {!isEncontro && (
+        <div className="flex flex-col gap-4 mb-8">
+          {inscricao.status !== 'cancelado' && (
+            <StatusSelector
+              inscricaoId={inscricao.id}
+              retiroId={id}
+              statusAtual={inscricao.status}
+            />
+          )}
+          <DesistenciaPanel
             inscricaoId={inscricao.id}
             retiroId={id}
-            statusAtual={inscricao.status}
+            status={inscricao.status}
+            reembolsado={inscricao.reembolsado}
+            dataDesistencia={inscricao.data_desistencia}
           />
-        )}
-        <DesistenciaPanel
-          inscricaoId={inscricao.id}
-          retiroId={id}
-          status={inscricao.status}
-          reembolsado={inscricao.reembolsado}
-          dataDesistencia={inscricao.data_desistencia}
-        />
-      </div>
+        </div>
+      )}
 
       <Separator className="mb-8" />
 
@@ -446,17 +449,19 @@ export default async function InscricaoDetalhePage({
                             <span className="text-xs text-zinc-400">—</span>
                           )}
                         </td>
-                        <td className="px-5 py-3 text-right">
-                          <form action={deleteAction}>
-                            <button
-                              type="submit"
-                              className="text-zinc-400 hover:text-red-600 transition-colors"
-                              title="Remover pagamento"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </button>
-                          </form>
-                        </td>
+                        {!isEncontro && (
+                          <td className="px-5 py-3 text-right">
+                            <form action={deleteAction}>
+                              <button
+                                type="submit"
+                                className="text-zinc-400 hover:text-red-600 transition-colors"
+                                title="Remover pagamento"
+                              >
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </button>
+                            </form>
+                          </td>
+                        )}
                       </tr>
                     )
                   })}
@@ -465,11 +470,13 @@ export default async function InscricaoDetalhePage({
             </div>
           )}
 
-          <PagamentoForm
-            inscricaoId={inscricaoId}
-            retiroId={id}
-            modalidade={inscricao.modalidade_pagamento}
-          />
+          {!isEncontro && (
+            <PagamentoForm
+              inscricaoId={inscricaoId}
+              retiroId={id}
+              modalidade={inscricao.modalidade_pagamento}
+            />
+          )}
         </>
       )}
     </div>

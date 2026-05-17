@@ -1,7 +1,8 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { CreditCard } from 'lucide-react'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getSessionRole } from '@/lib/auth-guard'
 import { Card, CardContent } from '@/components/ui/card'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -31,6 +32,7 @@ export default async function PagamentosPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+  if ((await getSessionRole()) === 'secretaria_encontro') redirect(`/admin/retiros/${id}`)
   const supabase = createAdminClient()
 
   const [{ data: retiro, error: retiroError }, { data: inscritos, error: inscritosError }] =

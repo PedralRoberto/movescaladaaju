@@ -2,12 +2,15 @@
 
 import { redirect } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { assertNaoEncontro } from '@/lib/auth-guard'
 import type { RetiroTipo, RetiroPolo, RetiroStatus } from '@/types/database'
 
 export async function createRetiro(
   _prevState: { error?: string } | null,
   formData: FormData
 ): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
   const supabase = createAdminClient()
 
   const tipo = formData.get('tipo') as RetiroTipo

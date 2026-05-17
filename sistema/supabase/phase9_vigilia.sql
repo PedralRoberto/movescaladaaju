@@ -1,15 +1,18 @@
 -- Fase 9: Controle de materiais da Vigília
 create table if not exists public.vigilia_materiais (
-  id             uuid        primary key default gen_random_uuid(),
-  inscricao_id   uuid        not null unique references public.inscricoes(id) on delete cascade,
-  foto_crianca   boolean     not null default false,
-  foto_adolescente boolean   not null default false,
-  foto_atual     boolean     not null default false,
-  cartas_recebidas integer   not null default 0 check (cartas_recebidas >= 0),
-  observacoes    text,
-  updated_at     timestamptz default now(),
-  created_at     timestamptz default now()
+  id               uuid        primary key default gen_random_uuid(),
+  inscricao_id     uuid        not null unique references public.inscricoes(id) on delete cascade,
+  foto_crianca     boolean     not null default false,
+  foto_adolescente boolean     not null default false,
+  foto_atual       boolean     not null default false,
+  cartas_recebidas integer     not null default 0 check (cartas_recebidas >= 0),
+  observacoes      text,
+  updated_at       timestamptz default now(),
+  created_at       timestamptz default now()
 );
+
+-- Grants explícitos necessários em SQL manual (o dashboard adiciona automaticamente)
+grant all on public.vigilia_materiais to anon, authenticated, service_role;
 
 alter table public.vigilia_materiais enable row level security;
 

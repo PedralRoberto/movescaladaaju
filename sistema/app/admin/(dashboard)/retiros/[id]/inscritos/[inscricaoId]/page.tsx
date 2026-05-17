@@ -20,6 +20,7 @@ import {
 } from '@/lib/pagamento-utils'
 import { StatusSelector } from '@/components/admin/status-selector'
 import { PagamentoForm } from '@/components/admin/pagamento-form'
+import { DesistenciaPanel } from '@/components/admin/desistencia-panel'
 import { deletarPagamento } from '@/app/admin/(dashboard)/retiros/[id]/pagamentos/actions'
 import type { ReuniaoPrevia, Pagamento } from '@/types/database'
 
@@ -144,12 +145,21 @@ export default async function InscricaoDetalhePage({
         </div>
       </div>
 
-      {/* Selector de status */}
-      <div className="mb-8">
-        <StatusSelector
+      {/* Selector de status + Desistência */}
+      <div className="flex flex-col gap-4 mb-8">
+        {inscricao.status !== 'cancelado' && (
+          <StatusSelector
+            inscricaoId={inscricao.id}
+            retiroId={id}
+            statusAtual={inscricao.status}
+          />
+        )}
+        <DesistenciaPanel
           inscricaoId={inscricao.id}
           retiroId={id}
-          statusAtual={inscricao.status}
+          status={inscricao.status}
+          reembolsado={inscricao.reembolsado}
+          dataDesistencia={inscricao.data_desistencia}
         />
       </div>
 
@@ -235,13 +245,13 @@ export default async function InscricaoDetalhePage({
         </CardContent>
       </Card>
 
-      {/* Chamada */}
-      <h2 className="text-base font-semibold text-zinc-900 mb-3">Chamada</h2>
+      {/* Preparatórias */}
+      <h2 className="text-base font-semibold text-zinc-900 mb-3">Preparatórias</h2>
       <Card className="mb-10">
         <CardContent className="pt-5 pb-5">
           {reunioesList.length === 0 ? (
             <p className="text-sm text-zinc-400 italic">
-              Nenhuma reunião agendada para este retiro.
+              Nenhuma preparatória agendada para este retiro.
             </p>
           ) : (
             <div className="flex items-center gap-6 flex-wrap">
@@ -249,7 +259,7 @@ export default async function InscricaoDetalhePage({
                 {reunioesList.map((r) => (
                   <div key={r.id} className="flex flex-col items-center gap-1">
                     <span className="text-xs font-medium text-zinc-400">
-                      R{r.numero}
+                      {r.numero}ª
                     </span>
                     <span
                       className={`h-6 w-6 rounded-full flex items-center justify-center text-xs font-bold ${
@@ -265,7 +275,7 @@ export default async function InscricaoDetalhePage({
                 {Array.from({ length: 4 - reunioesList.length }).map((_, i) => (
                   <div key={`vazio-${i}`} className="flex flex-col items-center gap-1">
                     <span className="text-xs font-medium text-zinc-300">
-                      R{reunioesList.length + i + 1}
+                      {reunioesList.length + i + 1}ª
                     </span>
                     <span className="h-6 w-6 rounded-full bg-zinc-50 flex items-center justify-center text-xs text-zinc-300">
                       —
@@ -275,7 +285,7 @@ export default async function InscricaoDetalhePage({
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-sm text-zinc-500">
-                  {totalPresente}/{reunioesList.length} reunião(ões)
+                  {totalPresente}/{reunioesList.length} preparatória(s)
                 </span>
                 <span
                   className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${situacaoClasses}`}
@@ -289,95 +299,110 @@ export default async function InscricaoDetalhePage({
       </Card>
 
       {/* Pagamentos */}
-      <div className="flex items-center justify-between mb-3">
-        <h2 className="text-base font-semibold text-zinc-900">Pagamentos</h2>
-        <span
-          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${pagamentoSituacaoColor(situacaoPagamento)}`}
-        >
-          {pagamentoSituacaoLabel(situacaoPagamento)} · R${' '}
-          {totalPago.toFixed(2)} / R$ {TOTAL_OWED.toFixed(2)}
-        </span>
-      </div>
+      <h2 className="text-base font-semibold text-zinc-900 mb-3">Pagamentos</h2>
 
-      {pagamentosList.length > 0 && (
-        <div className="bg-white rounded-xl border border-zinc-200 overflow-x-auto mb-4">
-          <table className="w-full text-sm min-w-[480px]">
-            <thead>
-              <tr className="border-b border-zinc-100 bg-zinc-50">
-                <th className="text-left px-5 py-2.5 font-medium text-zinc-500">
-                  Tipo
-                </th>
-                <th className="text-right px-5 py-2.5 font-medium text-zinc-500">
-                  Valor
-                </th>
-                <th className="text-left px-5 py-2.5 font-medium text-zinc-500">
-                  Data
-                </th>
-                <th className="text-left px-5 py-2.5 font-medium text-zinc-500">
-                  Comprovante
-                </th>
-                <th className="px-5 py-2.5" />
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-100">
-              {pagamentosList.map((pagamento) => {
-                const deleteAction = deletarPagamento.bind(
-                  null,
-                  pagamento.id,
-                  inscricaoId,
-                  id,
-                  pagamento.comprovante_url
-                )
-                return (
-                  <tr key={pagamento.id} className="hover:bg-zinc-50">
-                    <td className="px-5 py-3 font-medium text-zinc-900">
-                      {pagamentoTipoLabel(pagamento.tipo)}
-                    </td>
-                    <td className="px-5 py-3 text-right text-zinc-900">
-                      R$ {Number(pagamento.valor).toFixed(2)}
-                    </td>
-                    <td className="px-5 py-3 text-zinc-600">
-                      {formatarData(pagamento.data_pagamento)}
-                    </td>
-                    <td className="px-5 py-3">
-                      {signedUrls[pagamento.id] ? (
-                        <a
-                          href={signedUrls[pagamento.id]}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-teal-600 hover:text-teal-700 text-xs"
-                        >
-                          <ExternalLink className="h-3 w-3" />
-                          Ver
-                        </a>
-                      ) : (
-                        <span className="text-xs text-zinc-400">—</span>
-                      )}
-                    </td>
-                    <td className="px-5 py-3 text-right">
-                      <form action={deleteAction}>
-                        <button
-                          type="submit"
-                          className="text-zinc-400 hover:text-red-600 transition-colors"
-                          title="Remover pagamento"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
-                      </form>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
+      {inscricao.status === 'lista_espera' ? (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-4 mb-8">
+          <p className="text-sm font-medium text-amber-800 mb-0.5">
+            Cursista na lista de espera
+          </p>
+          <p className="text-xs text-amber-700">
+            Pagamento não exigido até ser chamado(a). Quando confirmada a participação,
+            o pagamento de R&nbsp;50,00 é feito na 1ª preparatória.
+          </p>
         </div>
-      )}
+      ) : (
+        <>
+          <div className="flex items-center justify-between mb-3">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${pagamentoSituacaoColor(situacaoPagamento)}`}
+            >
+              {pagamentoSituacaoLabel(situacaoPagamento)} · R${' '}
+              {totalPago.toFixed(2)} / R$ {TOTAL_OWED.toFixed(2)}
+            </span>
+          </div>
 
-      <PagamentoForm
-        inscricaoId={inscricaoId}
-        retiroId={id}
-        modalidade={inscricao.modalidade_pagamento}
-      />
+          {pagamentosList.length > 0 && (
+            <div className="bg-white rounded-xl border border-zinc-200 overflow-x-auto mb-4">
+              <table className="w-full text-sm min-w-[480px]">
+                <thead>
+                  <tr className="border-b border-zinc-100 bg-zinc-50">
+                    <th className="text-left px-5 py-2.5 font-medium text-zinc-500">
+                      Tipo
+                    </th>
+                    <th className="text-right px-5 py-2.5 font-medium text-zinc-500">
+                      Valor
+                    </th>
+                    <th className="text-left px-5 py-2.5 font-medium text-zinc-500">
+                      Data
+                    </th>
+                    <th className="text-left px-5 py-2.5 font-medium text-zinc-500">
+                      Comprovante
+                    </th>
+                    <th className="px-5 py-2.5" />
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100">
+                  {pagamentosList.map((pagamento) => {
+                    const deleteAction = deletarPagamento.bind(
+                      null,
+                      pagamento.id,
+                      inscricaoId,
+                      id,
+                      pagamento.comprovante_url
+                    )
+                    return (
+                      <tr key={pagamento.id} className="hover:bg-zinc-50">
+                        <td className="px-5 py-3 font-medium text-zinc-900">
+                          {pagamentoTipoLabel(pagamento.tipo)}
+                        </td>
+                        <td className="px-5 py-3 text-right text-zinc-900">
+                          R$ {Number(pagamento.valor).toFixed(2)}
+                        </td>
+                        <td className="px-5 py-3 text-zinc-600">
+                          {formatarData(pagamento.data_pagamento)}
+                        </td>
+                        <td className="px-5 py-3">
+                          {signedUrls[pagamento.id] ? (
+                            <a
+                              href={signedUrls[pagamento.id]}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 text-teal-600 hover:text-teal-700 text-xs"
+                            >
+                              <ExternalLink className="h-3 w-3" />
+                              Ver
+                            </a>
+                          ) : (
+                            <span className="text-xs text-zinc-400">—</span>
+                          )}
+                        </td>
+                        <td className="px-5 py-3 text-right">
+                          <form action={deleteAction}>
+                            <button
+                              type="submit"
+                              className="text-zinc-400 hover:text-red-600 transition-colors"
+                              title="Remover pagamento"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <PagamentoForm
+            inscricaoId={inscricaoId}
+            retiroId={id}
+            modalidade={inscricao.modalidade_pagamento}
+          />
+        </>
+      )}
     </div>
   )
 }

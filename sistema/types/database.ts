@@ -71,6 +71,8 @@ export interface Inscricao {
   comprovante_pagamento_url: string | null
   documento_identificacao_url: string | null
   observacoes: string | null
+  reembolsado: boolean | null
+  data_desistencia: string | null
   created_at: string
   updated_at: string
 }

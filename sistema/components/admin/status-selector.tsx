@@ -10,7 +10,6 @@ const STATUS_OPTIONS: InscricaoStatus[] = [
   'lista_espera',
   'confirmado',
   'desclassificado',
-  'cancelado',
 ]
 
 interface StatusSelectorProps {

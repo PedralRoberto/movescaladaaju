@@ -79,6 +79,7 @@ export function InscricaoForm({ retiros }: InscricaoFormProps) {
   const [modalidade, setModalidade] = useState('padrao')
   const [retiroId, setRetiroId] = useState(retiros[0]?.id ?? '')
   const [tocaInstrumento, setTocaInstrumento] = useState<string | null>(null)
+  const [pagamentoPresencial, setPagamentoPresencial] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
@@ -505,33 +506,100 @@ export function InscricaoForm({ retiros }: InscricaoFormProps) {
               </div>
             </div>
 
-            {retiroAtual?.chave_pix && (
-              <div className="rounded-xl bg-teal-50 border border-teal-200 px-4 py-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-teal-700 mb-1.5">
-                  Chave Pix para pagamento
+            {/* Forma de pagamento */}
+            <div>
+              <Rotulo>Forma de pagamento da entrada</Rotulo>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  {
+                    value: false,
+                    label: 'Pix (remoto)',
+                    descricao: 'Realizo o Pix e envio o comprovante.',
+                  },
+                  {
+                    value: true,
+                    label: 'Presencial',
+                    descricao: 'Pago em dinheiro ou Pix na hora, sem comprovante.',
+                  },
+                ].map((op) => (
+                  <button
+                    key={String(op.value)}
+                    type="button"
+                    onClick={() => setPagamentoPresencial(op.value)}
+                    disabled={isPending}
+                    className={`text-left p-4 rounded-xl border-2 transition-all disabled:opacity-50 ${
+                      pagamentoPresencial === op.value
+                        ? 'border-teal-500 bg-teal-50'
+                        : 'border-zinc-200 bg-white hover:border-zinc-300'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <div
+                        className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                          pagamentoPresencial === op.value
+                            ? 'border-teal-500'
+                            : 'border-zinc-300'
+                        }`}
+                      >
+                        {pagamentoPresencial === op.value && (
+                          <div className="w-1.5 h-1.5 rounded-full bg-teal-500" />
+                        )}
+                      </div>
+                      <span
+                        className={`text-sm font-semibold ${
+                          pagamentoPresencial === op.value ? 'text-teal-700' : 'text-zinc-700'
+                        }`}
+                      >
+                        {op.label}
+                      </span>
+                    </div>
+                    <p className="text-xs text-zinc-500 ml-5.5">{op.descricao}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {pagamentoPresencial ? (
+              <div className="rounded-xl bg-zinc-50 border border-zinc-200 px-4 py-4">
+                <p className="text-sm font-medium text-zinc-700">
+                  Pagamento presencial registrado
                 </p>
-                <p className="font-mono text-sm text-teal-900 font-medium break-all">
-                  {retiroAtual.chave_pix}
-                </p>
-                <p className="text-xs text-teal-600 mt-2">
-                  Realize o Pix e anexe o comprovante abaixo.
+                <p className="text-xs text-zinc-400 mt-1">
+                  O comprovante não é necessário. A secretaria confirmará o
+                  pagamento internamente.
                 </p>
               </div>
-            )}
+            ) : (
+              <>
+                {retiroAtual?.chave_pix && (
+                  <div className="rounded-xl bg-teal-50 border border-teal-200 px-4 py-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-teal-700 mb-1.5">
+                      Chave Pix para pagamento
+                    </p>
+                    <p className="font-mono text-sm text-teal-900 font-medium break-all">
+                      {retiroAtual.chave_pix}
+                    </p>
+                    <p className="text-xs text-teal-600 mt-2">
+                      Realize o Pix e anexe o comprovante abaixo.
+                    </p>
+                  </div>
+                )}
 
-            <div>
-              <Rotulo>Comprovante de pagamento</Rotulo>
-              <p className="text-xs text-zinc-400 mb-1.5">
-                Imagem ou PDF do comprovante da entrada paga.
-              </p>
-              <input
-                name="comprovante_pagamento"
-                type="file"
-                accept="image/*,.pdf"
-                disabled={isPending}
-                className="w-full text-sm text-zinc-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 cursor-pointer disabled:opacity-50"
-              />
-            </div>
+                <div>
+                  <Rotulo>Comprovante de pagamento</Rotulo>
+                  <p className="text-xs text-zinc-400 mb-1.5">
+                    Imagem ou PDF do comprovante da entrada paga.
+                  </p>
+                  <input
+                    name="comprovante_pagamento"
+                    type="file"
+                    accept="image/*,.pdf"
+                    disabled={isPending}
+                    className="w-full text-sm text-zinc-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 cursor-pointer disabled:opacity-50"
+                  />
+                </div>
+              </>
+            )}
 
             <div>
               <Rotulo>Documento de identificação</Rotulo>

@@ -98,6 +98,15 @@ export interface VigiliaMaterial {
   created_at: string
 }
 
+export interface PresencaResponsavel {
+  id: string
+  inscricao_id: string
+  reuniao_id: string
+  presente: boolean
+  created_at: string
+  updated_at: string
+}
+
 export interface Pagamento {
   id: string
   inscricao_id: string

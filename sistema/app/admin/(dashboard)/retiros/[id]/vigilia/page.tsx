@@ -5,8 +5,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getSessionRole } from '@/lib/auth-guard'
 import { nomeRetiro } from '@/lib/retiro-utils'
 import { VigíliaGrid } from '@/components/admin/vigilia-grid'
+import { PresencaResponsavelGrid } from '@/components/admin/presenca-responsavel-grid'
 import { BackButton } from '@/components/admin/back-button'
-import type { VigiliaMaterial } from '@/types/database'
+import type { VigiliaMaterial, PresencaResponsavel } from '@/types/database'
 
 export default async function VigíliaPage({
   params,
@@ -20,6 +21,7 @@ export default async function VigíliaPage({
   const [
     { data: retiro, error: retiroError },
     { data: inscritos, error: inscritosError },
+    { data: reunioes },
   ] = await Promise.all([
     supabase.from('retiros').select('*').eq('id', id).single(),
     supabase
@@ -28,6 +30,11 @@ export default async function VigíliaPage({
       .eq('retiro_id', id)
       .neq('status', 'cancelado')
       .order('nome_completo'),
+    supabase
+      .from('reunioes_previas')
+      .select('id, numero, data')
+      .eq('retiro_id', id)
+      .order('numero'),
   ])
 
   if (retiroError || !retiro) notFound()
@@ -41,15 +48,21 @@ export default async function VigíliaPage({
   }
 
   const inscritosList = inscritos ?? []
+  const reunioesList = reunioes ?? []
   const inscritoIds = inscritosList.map((i) => i.id)
+  const reuniaoIds = reunioesList.map((r) => r.id)
 
-  const { data: materiais } =
+  const [{ data: materiais }, { data: presencasResp }] = await Promise.all([
     inscritoIds.length > 0
-      ? await supabase
-          .from('vigilia_materiais')
-          .select('*')
+      ? supabase.from('vigilia_materiais').select('*').in('inscricao_id', inscritoIds)
+      : { data: [] as VigiliaMaterial[] },
+    inscritoIds.length > 0 && reuniaoIds.length > 0
+      ? supabase
+          .from('presencas_responsavel')
+          .select('inscricao_id, reuniao_id, presente')
           .in('inscricao_id', inscritoIds)
-      : { data: [] as VigiliaMaterial[] }
+      : { data: [] as PresencaResponsavel[] },
+  ])
 
   const nome = nomeRetiro(retiro)
 
@@ -112,12 +125,31 @@ export default async function VigíliaPage({
         Mínimo: 3 fotos (criança, adolescente, atual) e 5 cartas.
       </p>
 
-      {/* Grid */}
+      {/* Grid de Fotos + Cartas */}
       <VigíliaGrid
         retiroId={id}
         inscritos={inscritosList}
         materiais={materiais ?? []}
       />
+
+      {/* Seção de Presença dos Responsáveis */}
+      <div className="mt-10">
+        <div className="flex items-center gap-3 mb-2">
+          <h2 className="text-base font-semibold text-zinc-900">
+            Presença nas Preparatórias
+          </h2>
+        </div>
+        <p className="text-xs text-zinc-400 mb-4">
+          Marque as preparatórias em que o responsável esteve presente.
+          Faltas identificadas aqui orientam o acompanhamento da vigília.
+        </p>
+        <PresencaResponsavelGrid
+          retiroId={id}
+          inscritos={inscritosList}
+          reunioes={reunioesList}
+          presencas={presencasResp ?? []}
+        />
+      </div>
     </div>
   )
 }

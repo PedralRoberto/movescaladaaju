@@ -36,6 +36,36 @@ export async function toggleFotoVigilia(
   return {}
 }
 
+export async function togglePresencaResponsavel(
+  inscricaoId: string,
+  reuniaoId: string,
+  retiroId: string,
+  presente: boolean
+): Promise<{ error?: string }> {
+  const guard = await assertNaoEncontro()
+  if (guard.error) return guard
+  const supabase = createAdminClient()
+
+  const { error } = await supabase
+    .from('presencas_responsavel')
+    .upsert(
+      { inscricao_id: inscricaoId, reuniao_id: reuniaoId, presente, updated_at: new Date().toISOString() },
+      { onConflict: 'inscricao_id,reuniao_id' }
+    )
+
+  if (error) {
+    return {
+      error:
+        process.env.NODE_ENV === 'development'
+          ? `[${error.code}] ${error.message}`
+          : 'Erro ao registrar presença.',
+    }
+  }
+
+  revalidatePath(`/admin/retiros/${retiroId}/vigilia`)
+  return {}
+}
+
 export async function atualizarCartasVigilia(
   inscricaoId: string,
   retiroId: string,

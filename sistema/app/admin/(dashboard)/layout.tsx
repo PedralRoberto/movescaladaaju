@@ -4,7 +4,6 @@ import { createClient } from '@/lib/supabase/server'
 import { NavLink } from '@/components/admin/nav-link'
 import { SidebarLogout } from '@/components/admin/sidebar-logout'
 import { AdminShell } from '@/components/admin/admin-shell'
-import { VigíliaShell } from '@/components/admin/vigilia-shell'
 
 export default async function AdminLayout({
   children,
@@ -25,37 +24,10 @@ export default async function AdminLayout({
   const isPreparatoria = role === 'coordenador_preparatoria'
   const isVigilia = role === 'secretaria_vigilia'
 
-  if (isVigilia) {
-    return (
-      <VigíliaShell
-        email={user.email ?? ''}
-        apelido={user.user_metadata?.apelido as string | undefined}
-      >
-        {children}
-      </VigíliaShell>
-    )
-  }
-
   return (
     <AdminShell
       sidebarContent={
         <>
-          {/* Topo da sidebar */}
-          <div className="px-4 pt-5 pb-4 pr-10">
-            <div className="flex items-center gap-2.5 mb-1">
-              <img
-                src="/escalada-icon.svg"
-                alt=""
-                aria-hidden="true"
-                className="w-8 h-8 shrink-0"
-              />
-              <span className="text-sm font-bold text-teal-600">Escalada Aju</span>
-            </div>
-            <p className="text-xs text-zinc-400 pl-10">Painel Admin</p>
-          </div>
-
-          <div className="h-px bg-zinc-200 mx-4" />
-
           {/* Navegação */}
           <nav className="flex-1 px-3 py-4 space-y-1">
             {isPreparatoria ? (

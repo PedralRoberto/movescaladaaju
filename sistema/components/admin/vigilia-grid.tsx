@@ -251,6 +251,12 @@ export function VigíliaGrid({
           <tr className="border-b border-zinc-200 bg-zinc-50">
             <th className="text-left px-6 py-3 font-medium text-zinc-500 min-w-[180px]">Nome</th>
             <th className="text-left px-4 py-3 font-medium text-zinc-500 min-w-[140px]">Responsável</th>
+            {reunioes.map((r) => (
+              <th key={r.id} className="px-4 py-3 font-medium text-zinc-500 text-center w-[88px]">
+                <span className="block text-xs">Prep. {r.numero}ª</span>
+                <span className="block text-xs text-zinc-400 font-normal">{formatData(r.data)}</span>
+              </th>
+            ))}
             <th className="px-4 py-3 font-medium text-zinc-500 text-center w-20">
               <span className="block text-xs">Foto</span>
               <span className="block text-xs text-zinc-400 font-normal">Criança</span>
@@ -267,12 +273,6 @@ export function VigíliaGrid({
               <span className="block text-xs">Cartas</span>
               <span className="block text-xs text-zinc-400 font-normal">mín. {CARTAS_MIN}</span>
             </th>
-            {reunioes.map((r) => (
-              <th key={r.id} className="px-4 py-3 font-medium text-zinc-500 text-center w-[88px]">
-                <span className="block text-xs">Resp. {r.numero}ª</span>
-                <span className="block text-xs text-zinc-400 font-normal">{formatData(r.data)}</span>
-              </th>
-            ))}
             <th className="px-4 py-3 font-medium text-zinc-500 text-center w-28">Situação</th>
             <th className="px-4 py-3 w-10" />
           </tr>
@@ -289,6 +289,16 @@ export function VigíliaGrid({
                 <td className="px-4 py-3 text-sm text-zinc-500">
                   {inscricao.nome_responsavel ?? '—'}
                 </td>
+                {reunioes.map((r) => (
+                  <td key={r.id} className="px-4 py-3 text-center">
+                    <RespCheck
+                      inscricaoId={inscricao.id}
+                      reuniaoId={r.id}
+                      retiroId={retiroId}
+                      checked={respPreps[r.id] ?? false}
+                    />
+                  </td>
+                ))}
                 <td className="px-4 py-3 text-center">
                   <FotoCheck
                     inscricaoId={inscricao.id}
@@ -320,16 +330,6 @@ export function VigíliaGrid({
                     inicial={mat.cartas_recebidas}
                   />
                 </td>
-                {reunioes.map((r) => (
-                  <td key={r.id} className="px-4 py-3 text-center">
-                    <RespCheck
-                      inscricaoId={inscricao.id}
-                      reuniaoId={r.id}
-                      retiroId={retiroId}
-                      checked={respPreps[r.id] ?? false}
-                    />
-                  </td>
-                ))}
                 <td className="px-4 py-3 text-center">
                   <StatusBadge mat={mat} />
                 </td>

@@ -6,7 +6,7 @@ export function inscricaoStatusLabel(status: InscricaoStatus): string {
     lista_espera: 'Lista de espera',
     confirmado: 'Confirmado',
     desclassificado: 'Desclassificado',
-    cancelado: 'Cancelado',
+    cancelado: 'Desistência',
   }
   return map[status]
 }

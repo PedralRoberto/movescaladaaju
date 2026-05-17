@@ -66,6 +66,13 @@ export async function registrarDesistencia(
   return {}
 }
 
+export async function puxarParaInscritos(
+  inscricaoId: string,
+  retiroId: string
+): Promise<void> {
+  await updateInscricaoStatus(inscricaoId, retiroId, 'inscrito')
+}
+
 export async function toggleReembolsado(
   inscricaoId: string,
   retiroId: string,

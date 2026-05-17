@@ -1,6 +1,7 @@
 'use client'
 
 import { useTransition, useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import { updateInscricaoStatus } from '@/app/admin/(dashboard)/retiros/[id]/inscritos/actions'
 import type { InscricaoStatus } from '@/types/database'
 import { inscricaoStatusLabel } from '@/lib/inscricao-utils'
@@ -49,18 +50,21 @@ export function StatusSelector({
 
   return (
     <div className="flex items-center gap-3">
-      <select
-        defaultValue={statusAtual}
-        onChange={handleChange}
-        disabled={isPending}
-        className="text-sm border border-zinc-200 rounded-lg pl-3 pr-8 py-2 bg-white text-zinc-900 focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {STATUS_OPTIONS.map((s) => (
-          <option key={s} value={s}>
-            {inscricaoStatusLabel(s)}
-          </option>
-        ))}
-      </select>
+      <div className="relative">
+        <select
+          defaultValue={statusAtual}
+          onChange={handleChange}
+          disabled={isPending}
+          className="appearance-none text-sm border border-zinc-200 rounded-lg px-3 py-2 pr-9 bg-white text-zinc-900 focus:outline-none focus:ring-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {STATUS_OPTIONS.map((s) => (
+            <option key={s} value={s}>
+              {inscricaoStatusLabel(s)}
+            </option>
+          ))}
+        </select>
+        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+      </div>
 
       {isPending && (
         <span className="text-xs text-zinc-400">Salvando...</span>

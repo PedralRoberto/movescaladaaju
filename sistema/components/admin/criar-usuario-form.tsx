@@ -47,6 +47,19 @@ export function CriarUsuarioForm() {
 
             <form action={action} className="p-5 space-y-4">
               <div className="space-y-1.5">
+                <label className="block text-xs font-medium text-zinc-700">Apelido</label>
+                <input
+                  name="apelido"
+                  type="text"
+                  required
+                  placeholder="Como será chamado no sistema"
+                  className={IN}
+                  disabled={pending}
+                  autoComplete="off"
+                />
+              </div>
+
+              <div className="space-y-1.5">
                 <label className="block text-xs font-medium text-zinc-700">E-mail</label>
                 <input
                   name="email"

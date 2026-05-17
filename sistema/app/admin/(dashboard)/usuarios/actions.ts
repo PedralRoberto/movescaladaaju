@@ -20,11 +20,12 @@ export async function criarUsuario(
   try {
     await assertAdmin()
 
+    const apelido = (formData.get('apelido') as string)?.trim()
     const email = (formData.get('email') as string)?.trim()
     const password = (formData.get('password') as string)?.trim()
     const role = (formData.get('role') as string)?.trim()
 
-    if (!email || !password || !role) {
+    if (!apelido || !email || !password || !role) {
       return { error: 'Preencha todos os campos.' }
     }
     if (password.length < 8) {
@@ -41,6 +42,7 @@ export async function criarUsuario(
       password,
       email_confirm: true,
       app_metadata: { role },
+      user_metadata: { apelido },
     })
 
     if (error) {

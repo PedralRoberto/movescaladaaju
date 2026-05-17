@@ -27,7 +27,10 @@ export default async function AdminLayout({
 
   if (isVigilia) {
     return (
-      <VigíliaShell email={user.email ?? ''}>
+      <VigíliaShell
+        email={user.email ?? ''}
+        apelido={user.user_metadata?.apelido as string | undefined}
+      >
         {children}
       </VigíliaShell>
     )

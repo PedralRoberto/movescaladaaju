@@ -28,10 +28,12 @@ export function AdminShell({
 
   function toggleCollapse() {
     setCollapsed((prev) => {
+      const next = !prev
       try {
-        localStorage.setItem('sidebar-collapsed', String(!prev))
+        localStorage.setItem('sidebar-collapsed', String(next))
+        window.dispatchEvent(new CustomEvent('sidebar-toggle', { detail: { collapsed: next } }))
       } catch {}
-      return !prev
+      return next
     })
   }
 
@@ -47,13 +49,17 @@ export function AdminShell({
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col p-3 transition-transform duration-200 sm:static sm:shrink-0${
-          collapsed ? ' sm:self-start' : ''
-        } ${mobileOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0'}`}
+        className={[
+          'fixed inset-y-0 left-0 z-50 flex flex-col p-3 transition-transform duration-200',
+          // Desktop: collapsed → fixed flutuante (sem ocupar largura); expanded → static no flex
+          collapsed ? 'sm:fixed sm:inset-auto sm:top-0 sm:left-0' : 'sm:static sm:shrink-0',
+          // Mobile slide
+          mobileOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0',
+        ].join(' ')}
       >
         <div
-          className={`relative flex flex-col w-56 bg-white rounded-2xl shadow-md border border-zinc-200/60 overflow-hidden ${
-            collapsed ? '' : 'flex-1'
+          className={`relative flex flex-col w-56 bg-white rounded-2xl border border-zinc-200/60 overflow-hidden ${
+            collapsed ? 'shadow-lg' : 'shadow-md flex-1'
           }`}
         >
           {/* Cabeçalho — sempre visível */}

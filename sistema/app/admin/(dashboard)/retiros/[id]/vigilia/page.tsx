@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getSessionRole } from '@/lib/auth-guard'
 import { nomeRetiro } from '@/lib/retiro-utils'
 import { VigíliaGrid } from '@/components/admin/vigilia-grid'
+import { VigíliaContainer } from '@/components/admin/vigilia-container'
 import { BackButton } from '@/components/admin/back-button'
 import type { VigiliaMaterial, PresencaResponsavel } from '@/types/database'
 
@@ -78,7 +79,7 @@ export default async function VigíliaPage({
   const pendentes = inscritosList.length - completos
 
   return (
-    <div className="p-4 sm:p-8 max-w-6xl mx-auto">
+    <VigíliaContainer>
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-zinc-400 mb-6">
         <BackButton />
@@ -134,6 +135,6 @@ export default async function VigíliaPage({
         reunioes={reunioesList}
         presencasResp={presencasResp ?? []}
       />
-    </div>
+    </VigíliaContainer>
   )
 }

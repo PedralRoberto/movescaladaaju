@@ -58,8 +58,10 @@ export function AdminShell({
         ].join(' ')}
       >
         <div
-          className={`relative flex flex-col w-56 bg-white rounded-2xl border border-zinc-200/60 overflow-hidden ${
-            collapsed ? 'shadow-lg' : 'shadow-md flex-1'
+          className={`relative flex flex-col w-56 rounded-2xl border overflow-hidden transition-colors duration-200 ${
+            collapsed
+              ? 'shadow-lg border-zinc-200/40 bg-white/70 backdrop-blur-md sm:hover:bg-white sm:hover:border-zinc-200/60'
+              : 'shadow-md border-zinc-200/60 bg-white flex-1'
           }`}
         >
           {/* Cabeçalho — sempre visível */}

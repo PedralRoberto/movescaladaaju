@@ -245,36 +245,36 @@ export function VigíliaGrid({
   const minWidth = 680 + reunioes.length * 88
 
   return (
-    <div className="bg-white rounded-xl border border-zinc-200 overflow-auto">
+    <div className="bg-white rounded-xl border border-zinc-200 overflow-auto max-h-[calc(100vh-18rem)]">
       <table className="w-full text-sm" style={{ minWidth: `${minWidth}px` }}>
-        <thead>
-          <tr className="border-b border-zinc-200 bg-zinc-50">
-            <th className="text-left px-6 py-3 font-medium text-zinc-500 min-w-[180px]">Nome</th>
-            <th className="text-left px-4 py-3 font-medium text-zinc-500 min-w-[140px]">Responsável</th>
+        <thead className="sticky top-0 z-10">
+          <tr className="border-b border-zinc-200">
+            <th className="bg-zinc-50 text-left px-6 py-3 font-medium text-zinc-500 min-w-[180px]">Nome</th>
+            <th className="bg-zinc-50 text-left px-4 py-3 font-medium text-zinc-500 min-w-[140px]">Responsável</th>
             {reunioes.map((r) => (
-              <th key={r.id} className="px-4 py-3 font-medium text-zinc-500 text-center w-[88px]">
+              <th key={r.id} className="bg-zinc-50 px-4 py-3 font-medium text-zinc-500 text-center w-[88px]">
                 <span className="block text-xs">Prep. {r.numero}ª</span>
                 <span className="block text-xs text-zinc-400 font-normal">{formatData(r.data)}</span>
               </th>
             ))}
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-20">
+            <th className="bg-zinc-50 px-4 py-3 font-medium text-zinc-500 text-center w-20">
               <span className="block text-xs">Foto</span>
               <span className="block text-xs text-zinc-400 font-normal">Criança</span>
             </th>
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-20">
+            <th className="bg-zinc-50 px-4 py-3 font-medium text-zinc-500 text-center w-20">
               <span className="block text-xs">Foto</span>
               <span className="block text-xs text-zinc-400 font-normal">Adolesc.</span>
             </th>
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-20">
+            <th className="bg-zinc-50 px-4 py-3 font-medium text-zinc-500 text-center w-20">
               <span className="block text-xs">Foto</span>
               <span className="block text-xs text-zinc-400 font-normal">Atual</span>
             </th>
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-28">
+            <th className="bg-zinc-50 px-4 py-3 font-medium text-zinc-500 text-center w-28">
               <span className="block text-xs">Cartas</span>
               <span className="block text-xs text-zinc-400 font-normal">mín. {CARTAS_MIN}</span>
             </th>
-            <th className="px-4 py-3 font-medium text-zinc-500 text-center w-28">Situação</th>
-            <th className="px-4 py-3 w-10" />
+            <th className="bg-zinc-50 px-4 py-3 font-medium text-zinc-500 text-center w-28">Situação</th>
+            <th className="bg-zinc-50 px-4 py-3 w-10" />
           </tr>
         </thead>
         <tbody className="divide-y divide-zinc-100">
